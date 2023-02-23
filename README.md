@@ -1,2 +1,3 @@
-# rss-cargo-web
-RSS Cargo
+# RSS Cargo
+
+Simple RSS aggregator with pre bundeled "cargos" of RSS Feeds
