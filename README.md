@@ -1,3 +1,3 @@
-# RSS Cargo
+# RSS Cargo Web
 
-Simple RSS aggregator with pre bundeled "cargos" of RSS Feeds
+Простий RSS агрегатор з вбудованими "контейнерами"
