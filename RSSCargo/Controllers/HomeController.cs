@@ -15,6 +15,27 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
+        _logger.LogInformation("Index page requested.");
+
+        try
+        {
+            for (int i = 0; i < 100; i++)
+            {
+                if (i == 50)
+                {
+                    throw new Exception("This is exception for Index page.");
+                }
+                else
+                {
+                    _logger.LogInformation("The value of i is {LoopVariable}", i);
+                }
+            }
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, "Exception caught in Index page call.");
+        }
+
         return View();
     }
 
