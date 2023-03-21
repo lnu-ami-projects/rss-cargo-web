@@ -10,7 +10,7 @@ public class User
 
     public string Password { get; set; } = null!;
 
-    public virtual ICollection<UserCargo> UserCargos { get; } = new List<UserCargo>();
+    public virtual IEnumerable<UserCargo> UserCargos { get; } = new List<UserCargo>();
 
-    public virtual ICollection<UserFeed> UserFeeds { get; } = new List<UserFeed>();
+    public virtual IEnumerable<UserFeed> UserFeeds { get; } = new List<UserFeed>();
 }

@@ -28,8 +28,6 @@ try
     {
         options.UseNpgsql(builder.Configuration.GetConnectionString("connectionString"));
     });
-    builder.Services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
-    builder.Services.AddScoped<IUserService, UserService>();
 
     var app = builder.Build();
 
