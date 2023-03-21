@@ -1,5 +1,11 @@
 using Serilog;
 
+using RSSCargo.DAL.DataContext;
+using RSSCargo.DAL.Repositories;
+using RSSCargo.DAL.Repositories.Contracts;
+using RSSCargo.BLL.Services;
+using RSSCargo.BLL.Services.Contracts;
+using Microsoft.EntityFrameworkCore;
 
 var configuration = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json")
@@ -11,13 +17,19 @@ Log.Logger = new LoggerConfiguration()
 
 try
 {
-    Log.Information("App is starting.");
+    Log.Information("App is starting");
 
     var builder = WebApplication.CreateBuilder(args);
     builder.Host.UseSerilog();
 
     // Add services to the container.
     builder.Services.AddControllersWithViews();
+    builder.Services.AddDbContext<RsscargoContext>(options =>
+    {
+        options.UseNpgsql(builder.Configuration.GetConnectionString("connectionString"));
+    });
+    builder.Services.AddTransient(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+    builder.Services.AddScoped<IUserService, UserService>();
 
     var app = builder.Build();
 
@@ -45,7 +57,7 @@ try
 }
 catch (Exception ex)
 {
-    Log.Fatal(ex, "App failed to start correctly.");
+    Log.Fatal(ex, "App failed to start correctly");
 }
 finally
 {

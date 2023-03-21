@@ -1,8 +1,8 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using RSSCargo.Models;
+using RSSCargo.PL.Models;
 
-namespace RSSCargo.Controllers;
+namespace RSSCargo.PL.Controllers;
 
 public class HomeController : Controller
 {

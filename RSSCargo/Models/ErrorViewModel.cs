@@ -1,4 +1,4 @@
-namespace RSSCargo.Models;
+namespace RSSCargo.PL.Models;
 
 public class ErrorViewModel
 {
