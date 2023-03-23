@@ -1,14 +1,26 @@
 using Serilog;
 
 using RSSCargo.DAL.DataContext;
-using RSSCargo.DAL.Repositories;
-using RSSCargo.DAL.Repositories.Contracts;
-using RSSCargo.BLL.Services;
-using RSSCargo.BLL.Services.Contracts;
 using Microsoft.EntityFrameworkCore;
+// const string envPath = ".env";
+// if (File.Exists(envPath))
+// {
+//     
+//     foreach (var line in File.ReadAllLines(envPath))
+//     {
+//         var parts = line.Split(
+//             '=', 2,
+//             StringSplitOptions.RemoveEmptyEntries);
+//         
+//         if (parts.Length != 2)
+//             continue; 
+//         Environment.SetEnvironmentVariable(parts[0], parts[1]);
+//     }
+// }
 
 var configuration = new ConfigurationBuilder()
     .AddJsonFile("appsettings.json")
+    .AddEnvironmentVariables()
     .Build();
 
 Log.Logger = new LoggerConfiguration()
@@ -28,6 +40,7 @@ try
     {
         options.UseNpgsql(builder.Configuration.GetConnectionString("connectionString"));
     });
+
 
     var app = builder.Build();
 
@@ -61,3 +74,4 @@ finally
 {
     Log.CloseAndFlush();
 }
+

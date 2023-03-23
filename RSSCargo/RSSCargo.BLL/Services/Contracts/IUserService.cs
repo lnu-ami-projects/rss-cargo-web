@@ -4,5 +4,5 @@ using DAL.Models;
 
 public interface IUserService
 {
-    Task<List<User>> GetUsers();
+    public User? LoginUser(string email, string password);
 }

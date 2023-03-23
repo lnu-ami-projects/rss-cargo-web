@@ -1,6 +1,6 @@
 ﻿namespace RSSCargo.DAL.Models;
 
-public class UserCargo
+public class UserCargo: IEntityBase
 {
     public int Id { get; set; }
 
@@ -8,7 +8,7 @@ public class UserCargo
 
     public int CargoId { get; set; }
 
-    public virtual Cargo Cargo { get; set; } = null!;
+    public virtual Cargo Cargo { get; set; } = new();
 
-    public virtual User User { get; set; } = null!;
+    public virtual User User { get; set; } = new();
 }

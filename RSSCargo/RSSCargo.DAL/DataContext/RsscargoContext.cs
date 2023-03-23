@@ -15,15 +15,15 @@ public class RsscargoContext : DbContext
     {
     }
 
-    public virtual DbSet<Cargo>? Cargos { get; set; }
+    public virtual DbSet<Cargo> Cargos { get; set; }
 
-    public virtual DbSet<CargoFeed>? CargoFeeds { get; set; }
+    public virtual DbSet<CargoFeed> CargoFeeds { get; set; }
 
-    public virtual DbSet<User>? Users { get; set; }
+    public virtual DbSet<User> Users { get; set; }
 
-    public virtual DbSet<UserCargo>? UserCargos { get; set; }
+    public virtual DbSet<UserCargo> UserCargos { get; set; }
 
-    public virtual DbSet<UserFeed>? UserFeeds { get; set; }
+    public virtual DbSet<UserFeed> UserFeeds { get; set; }
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder){}
     protected override void OnModelCreating(ModelBuilder modelBuilder)

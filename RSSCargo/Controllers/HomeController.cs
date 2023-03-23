@@ -1,5 +1,7 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
+using RSSCargo.DAL.Models;
+using RSSCargo.DAL.Repositories.Contracts;
 using RSSCargo.PL.Models;
 
 namespace RSSCargo.PL.Controllers;
@@ -7,35 +9,18 @@ namespace RSSCargo.PL.Controllers;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
+    private readonly IGenericRepository<User> _genericRepository;
 
-    public HomeController(ILogger<HomeController> logger)
+    public HomeController(ILogger<HomeController> logger, IGenericRepository<User> genericRepository)
     {
         _logger = logger;
+        _genericRepository = genericRepository;
     }
 
     public IActionResult Index()
     {
-        _logger.LogInformation("Index page requested.");
-
-        try
-        {
-            for (int i = 0; i < 100; i++)
-            {
-                if (i == 50)
-                {
-                    throw new Exception("This is exception for Index page.");
-                }
-                else
-                {
-                    _logger.LogInformation("The value of i is {LoopVariable}", i);
-                }
-            }
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex, "Exception caught in Index page call.");
-        }
-
+        var user = _genericRepository.GetUserByEmail("a");
+        Console.WriteLine(user.Username);
         return View();
     }
 

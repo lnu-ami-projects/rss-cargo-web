@@ -2,26 +2,14 @@ namespace RSSCargo.DAL.Repositories;
 
 using DataContext;
 using Contracts;
+using Models;
 using Microsoft.EntityFrameworkCore;
 
-public class GenericRepository<TModel> : IGenericRepository<TModel> where TModel : class
+public class GenericRepository<IEntityBase> : RsscargoContext, IGenericRepository<IEntityBase> where IEntityBase : class
 {
-    private readonly RsscargoContext _dbContext;
-
-    public GenericRepository(RsscargoContext dbContext)
+    public User? GetUserByEmail(string email)
     {
-        _dbContext = dbContext;
+        return Users.FirstOrDefault(u => u.Email == email);
     }
-
-    public async Task<List<TModel>> GetUsers()
-    {
-        try
-        {
-            return await _dbContext.Set<TModel>().ToListAsync();
-        }
-        catch
-        {
-            throw new Exception();
-        }
-    }
+    
 }

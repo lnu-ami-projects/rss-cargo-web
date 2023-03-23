@@ -13,15 +13,9 @@ public class UserService: IUserService
         _repository = repository;
     }
 
-    public async Task<List<User>> GetUsers()
+    public User? LoginUser(string email, string password)
     {
-        try
-        {
-            return await _repository.GetUsers();
-        }
-        catch
-        {
-            throw new Exception();
-        }
+        var user = _repository.GetUserByEmail(email);
+        return user;
     }
 }
