@@ -5,10 +5,6 @@ namespace RSSCargo.DAL.DataContext;
 
 public class RssCargoContext : DbContext
 {
-    public RssCargoContext()
-    {
-    }
-
     public RssCargoContext(DbContextOptions<RssCargoContext> options)
         : base(options)
     {

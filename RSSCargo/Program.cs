@@ -1,5 +1,9 @@
 using Microsoft.EntityFrameworkCore;
+using RSSCargo.BLL.Services.Contracts;
+using RSSCargo.BLL.Services;
 using RSSCargo.DAL.DataContext;
+using RSSCargo.DAL.Repositories.Contracts;
+using RSSCargo.DAL.Repositories;
 using Serilog;
 
 // Load .env file
@@ -24,11 +28,7 @@ Log.Logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
     .CreateLogger();
 
-builder.Host.UseSerilog((context, services, configuration) => configuration
-    .ReadFrom.Configuration(context.Configuration)
-    .ReadFrom.Services(services)
-    .Enrich.FromLogContext()
-    .WriteTo.Console());
+builder.Host.UseSerilog();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -37,6 +37,9 @@ builder.Services.AddDbContext<RssCargoContext>(options =>
 {
     options.UseNpgsql(builder.Configuration.GetValue<string>("CONNECTION_STRING"));
 });
+
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
 
 try
 {
@@ -58,13 +61,6 @@ try
     app.MapControllerRoute(
         name: "default",
         pattern: "{controller=Home}/{action=Index}/{id?}");
-
-    // Test db connection
-    var db = app.Services.CreateScope().ServiceProvider.GetRequiredService<RssCargoContext>();
-    foreach (var user in db.Users)
-    {
-        Console.WriteLine(user.Email);
-    }
 
     app.Run();
 }

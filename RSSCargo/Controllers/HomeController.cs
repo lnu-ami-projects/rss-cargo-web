@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using RSSCargo.DAL.Models;
-using RSSCargo.DAL.Repositories.Contracts;
+using RSSCargo.BLL.Services.Contracts;
 using RSSCargo.PL.Models;
 
 namespace RSSCargo.PL.Controllers;
@@ -9,18 +8,21 @@ namespace RSSCargo.PL.Controllers;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
-    private readonly IGenericRepository<User> _genericRepository;
+    private readonly IUserService _userService;
 
-    public HomeController(ILogger<HomeController> logger, IGenericRepository<User> genericRepository)
+    public HomeController(ILogger<HomeController> logger, IUserService userService)
     {
         _logger = logger;
-        _genericRepository = genericRepository;
+        _userService = userService;
     }
 
     public IActionResult Index()
     {
-        var user = _genericRepository.GetUserByEmail("a");
-        Console.WriteLine(user.Username);
+        _logger.LogInformation("INDEX PAGE");
+        
+        var user = _userService.LoginUser("a", "b");
+        Console.WriteLine(user != null ? user.Username : "NO USER GGGGGG");
+
         return View();
     }
 
