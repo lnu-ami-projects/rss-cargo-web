@@ -1,31 +1,33 @@
 ﻿using Microsoft.EntityFrameworkCore;
-
 using RSSCargo.DAL.Models;
 
 namespace RSSCargo.DAL.DataContext;
 
-public class RsscargoContext : DbContext
+public class RssCargoContext : DbContext
 {
-    public RsscargoContext()
+    public RssCargoContext()
     {
     }
 
-    public RsscargoContext(DbContextOptions<RsscargoContext> options)
+    public RssCargoContext(DbContextOptions<RssCargoContext> options)
         : base(options)
     {
     }
 
-    public virtual DbSet<Cargo> Cargos { get; set; }
+    public virtual DbSet<Cargo> Cargos { get; set; } = null!;
 
-    public virtual DbSet<CargoFeed> CargoFeeds { get; set; }
+    public virtual DbSet<CargoFeed> CargoFeeds { get; set; } = null!;
 
-    public virtual DbSet<User> Users { get; set; }
+    public virtual DbSet<User> Users { get; set; } = null!;
 
-    public virtual DbSet<UserCargo> UserCargos { get; set; }
+    public virtual DbSet<UserCargo> UserCargos { get; set; } = null!;
 
-    public virtual DbSet<UserFeed> UserFeeds { get; set; }
+    public virtual DbSet<UserFeed> UserFeeds { get; set; } = null!;
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder){}
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+    }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Cargo>(entity =>

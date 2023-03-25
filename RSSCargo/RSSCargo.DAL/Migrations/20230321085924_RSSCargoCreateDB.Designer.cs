@@ -10,7 +10,7 @@ using RSSCargo.DAL.DataContext;
 
 namespace RSSCargo.DAL.Migrations
 {
-    [DbContext(typeof(RsscargoContext))]
+    [DbContext(typeof(RssCargoContext))]
     [Migration("20230321085924_RSSCargoCreateDB")]
     partial class RSSCargoCreateDB
     {

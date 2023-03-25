@@ -9,7 +9,7 @@ using RSSCargo.DAL.DataContext;
 
 namespace RSSCargo.DAL.Migrations
 {
-    [DbContext(typeof(RsscargoContext))]
+    [DbContext(typeof(RssCargoContext))]
     partial class RsscargoContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)

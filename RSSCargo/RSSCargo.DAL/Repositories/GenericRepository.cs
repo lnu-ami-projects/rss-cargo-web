@@ -5,7 +5,7 @@ using Contracts;
 using Models;
 using Microsoft.EntityFrameworkCore;
 
-public class GenericRepository<IEntityBase> : RsscargoContext, IGenericRepository<IEntityBase> where IEntityBase : class
+public class GenericRepository<IEntityBase> : RssCargoContext, IGenericRepository<IEntityBase> where IEntityBase : class
 {
     public User? GetUserByEmail(string email)
     {
