@@ -20,10 +20,6 @@ public class RssCargoContext : DbContext
 
     public virtual DbSet<UserFeed> UserFeeds { get; set; } = null!;
 
-    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-    {
-    }
-
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Cargo>(entity =>
