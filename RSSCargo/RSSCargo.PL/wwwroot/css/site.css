@@ -1,6 +1,4 @@
-﻿html {
-  font-size: 14px;
-}
+﻿@import url('https://fonts.googleapis.com/css2?family=Ledger&display=swap');
 
 @media (min-width: 768px) {
   html {
@@ -8,11 +6,6 @@
   }
 }
 
-html {
-  position: relative;
-  min-height: 100%;
-}
-
-body {
-  margin-bottom: 60px;
+header {
+  font-family: 'Ledger', serif;
 }
