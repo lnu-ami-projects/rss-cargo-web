@@ -13,9 +13,14 @@ public class UserService : IUserService
         _repository = repository;
     }
 
-    public User? LoginUser(string email, string password)
+    public int LoginUser(string email, string password)
     {
         var user = _repository.GetUserByEmail(email);
-        return user;
+        if (password == "")
+        {
+            throw new ApplicationException("password empty");
+        }
+
+        return user!.Id;
     }
 }

@@ -30,6 +30,15 @@ Log.Logger = new LoggerConfiguration()
 
 builder.Host.UseSerilog();
 
+builder.Services.AddDistributedMemoryCache();
+
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromSeconds(300);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
@@ -57,6 +66,7 @@ try
     app.UseSerilogRequestLogging();
     app.UseRouting();
     app.UseAuthorization();
+    app.UseSession();
 
     app.MapControllerRoute(
         name: "default",
