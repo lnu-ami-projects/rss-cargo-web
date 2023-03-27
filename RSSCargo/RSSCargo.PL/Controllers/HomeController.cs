@@ -23,20 +23,25 @@ public class HomeController : Controller
         return View();
     }
 
-    public IActionResult Login()
+    public IActionResult SignIn()
+    {
+        return View();
+    }
+    
+    public IActionResult SignUp()
     {
         if (!Request.HasFormContentType)
         {
             return View();
         }
-
+    
         var login = Request.Form["login"][0];
         var password = Request.Form["password"][0];
         if (login == null || password == null)
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-
+    
         int userId;
         try
         {
@@ -47,10 +52,10 @@ public class HomeController : Controller
             _logger.LogError("Login user " + e.Message);
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-
+    
         _logger.LogInformation("Logged user: " + userId);
         HttpContext.Session.SetInt32("userID", userId);
-
+    
         return Redirect("/");
     }
 
