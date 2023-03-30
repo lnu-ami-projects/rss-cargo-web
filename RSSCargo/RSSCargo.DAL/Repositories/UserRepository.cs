@@ -23,8 +23,8 @@ public class UserRepository : IUserRepository
         var user = new User
         {
             Email = email,
-            Username = username,
-            Password = password,
+            UserName = username,
+            PasswordHash = password,
         };
 
         _context.Users.Add(user);
@@ -62,7 +62,7 @@ public class UserRepository : IUserRepository
 
     public void SubscribeUserCargo(int userId, int cargoId)
     {
-        var cargo = new UserCargo()
+        var cargo = new UserCargo
         {
             UserId = userId,
             CargoId = cargoId,
@@ -72,7 +72,7 @@ public class UserRepository : IUserRepository
 
     public void UnsubscribeUserCargo(int userId, int cargoId)
     {
-        var cargo = new UserCargo()
+        var cargo = new UserCargo
         {
             UserId = userId,
             CargoId = cargoId,

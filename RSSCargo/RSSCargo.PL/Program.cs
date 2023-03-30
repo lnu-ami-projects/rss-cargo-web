@@ -65,6 +65,7 @@ try
     app.UseStaticFiles();
     app.UseSerilogRequestLogging();
     app.UseRouting();
+    app.UseAuthentication();
     app.UseAuthorization();
     app.UseSession();
 

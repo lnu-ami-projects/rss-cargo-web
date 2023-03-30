@@ -1,9 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using RSSCargo.DAL.Models;
 
 namespace RSSCargo.DAL.DataContext;
 
-public class RssCargoContext : DbContext
+public class RssCargoContext : IdentityDbContext<User, IdentityRole<int>, int>
 {
     public RssCargoContext(DbContextOptions<RssCargoContext> options)
         : base(options)
@@ -14,14 +16,14 @@ public class RssCargoContext : DbContext
 
     public virtual DbSet<CargoFeed> CargoFeeds { get; set; } = null!;
 
-    public virtual DbSet<User> Users { get; set; } = null!;
-
     public virtual DbSet<UserCargo> UserCargos { get; set; } = null!;
 
     public virtual DbSet<UserFeed> UserFeeds { get; set; } = null!;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
-    {
+    {   
+        base.OnModelCreating(modelBuilder);
+        
         modelBuilder.Entity<Cargo>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("cargos_pk");
@@ -57,28 +59,6 @@ public class RssCargoContext : DbContext
             entity.HasOne(d => d.Cargo).WithMany(p => p.CargoFeeds)
                 .HasForeignKey(d => d.CargoId)
                 .HasConstraintName("cargo_feeds_cargo_id_fk");
-        });
-
-        modelBuilder.Entity<User>(entity =>
-        {
-            entity.HasKey(e => e.Id).HasName("users_pk");
-
-            entity.ToTable("users");
-
-            entity.HasIndex(e => e.Email, "users_email_index").IsUnique();
-
-            entity.Property(e => e.Id)
-                .UseIdentityAlwaysColumn()
-                .HasColumnName("id");
-            entity.Property(e => e.Email)
-                .HasMaxLength(256)
-                .HasColumnName("email");
-            entity.Property(e => e.Password)
-                .HasMaxLength(256)
-                .HasColumnName("password");
-            entity.Property(e => e.Username)
-                .HasMaxLength(256)
-                .HasColumnName("username");
         });
 
         modelBuilder.Entity<UserCargo>(entity =>
