@@ -1,6 +1,6 @@
 {
   "iisSettings": {
-    "windowsAuthentication": false,
+    "windowsAuthentication": true,
     "anonymousAuthentication": true,
     "iisExpress": {
       "applicationUrl": "http://localhost:33871",
@@ -10,7 +10,8 @@
   "profiles": {
     "RSSCargo.PL": {
       "commandName": "Project",
-      "applicationUrl": "https://localhost:7012;http://localhost:5192",
+      "launchBrowser": true,
+      "applicationUrl": "http://localhost:7012;http://localhost:5192",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
       }

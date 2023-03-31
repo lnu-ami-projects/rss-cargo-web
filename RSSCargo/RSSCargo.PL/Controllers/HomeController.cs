@@ -22,43 +22,7 @@ public class HomeController : Controller
 
         return View();
     }
-
-    public IActionResult SignIn()
-    {
-        return View();
-    }
     
-    public IActionResult SignUp()
-    {
-        if (!Request.HasFormContentType)
-        {
-            return View();
-        }
-    
-        var login = Request.Form["login"][0];
-        var password = Request.Form["password"][0];
-        if (login == null || password == null)
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-    
-        int userId;
-        try
-        {
-            userId = _userService.LoginUser(login, password);
-        }
-        catch (Exception e)
-        {
-            _logger.LogError("Login user " + e.Message);
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
-    
-        _logger.LogInformation("Logged user: " + userId);
-        HttpContext.Session.SetInt32("userID", userId);
-    
-        return Redirect("/");
-    }
-
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {

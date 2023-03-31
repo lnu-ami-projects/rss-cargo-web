@@ -1,7 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using RSSCargo.BLL.Services.Contracts;
 using RSSCargo.BLL.Services;
 using RSSCargo.DAL.DataContext;
+using RSSCargo.DAL.Models;
 using RSSCargo.DAL.Repositories.Contracts;
 using RSSCargo.DAL.Repositories;
 using Serilog;
@@ -50,6 +52,18 @@ builder.Services.AddDbContext<RssCargoContext>(options =>
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 
+builder.Services.AddIdentity<User, IdentityRole<int>>()
+    .AddEntityFrameworkStores<RssCargoContext>()
+    .AddDefaultTokenProviders();
+
+const string cookieScheme = "RSSCargoScheme";
+builder.Services.AddAuthentication(cookieScheme).AddCookie(cookieScheme, options =>
+{
+    options.AccessDeniedPath = "/account/denied";
+    options.LoginPath = "/account/login";
+    
+});
+
 try
 {
     Log.Information("App is starting");
@@ -65,8 +79,10 @@ try
     app.UseStaticFiles();
     app.UseSerilogRequestLogging();
     app.UseRouting();
+    
     app.UseAuthentication();
     app.UseAuthorization();
+    
     app.UseSession();
 
     app.MapControllerRoute(
