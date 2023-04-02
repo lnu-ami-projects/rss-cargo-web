@@ -4,5 +4,5 @@ using DAL.Models;
 
 public interface IUserService
 {
-    public int LoginUser(string email, string password);
+    public int SignInUser(string email, string password);
 }

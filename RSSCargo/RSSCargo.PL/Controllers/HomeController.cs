@@ -18,11 +18,9 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        _logger.LogInformation("User ID: " + HttpContext.Session.GetInt32("userId"));
-
         return View();
     }
-    
+
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()
     {

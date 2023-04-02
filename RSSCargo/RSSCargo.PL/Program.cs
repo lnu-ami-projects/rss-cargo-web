@@ -31,37 +31,37 @@ Log.Logger = new LoggerConfiguration()
     .CreateLogger();
 
 builder.Host.UseSerilog();
-
 builder.Services.AddDistributedMemoryCache();
-
-builder.Services.AddSession(options =>
-{
-    options.IdleTimeout = TimeSpan.FromSeconds(300);
-    options.Cookie.HttpOnly = true;
-    options.Cookie.IsEssential = true;
-});
-
-// Add services to the container.
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<RssCargoContext>(options =>
-{
-    options.UseNpgsql(builder.Configuration.GetValue<string>("CONNECTION_STRING"));
-});
+    {
+        options.UseNpgsql(builder.Configuration.GetValue<string>("CONNECTION_STRING"));
+    }
+);
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 
-builder.Services.AddIdentity<User, IdentityRole<int>>()
-    .AddEntityFrameworkStores<RssCargoContext>()
-    .AddDefaultTokenProviders();
+builder.Services.AddIdentity<User, IdentityRole<int>>(options =>
+    {
+        options.SignIn.RequireConfirmedEmail = false;
 
-const string cookieScheme = "RSSCargoScheme";
-builder.Services.AddAuthentication(cookieScheme).AddCookie(cookieScheme, options =>
-{
-    options.AccessDeniedPath = "/account/denied";
-    options.LoginPath = "/account/login";
-});
+        options.Password.RequireDigit = false;
+        options.Password.RequireLowercase = false;
+        options.Password.RequireNonAlphanumeric = false;
+        options.Password.RequireUppercase = false;
+        options.Password.RequiredLength = 1;
+        options.Password.RequiredUniqueChars = 0;
+
+        options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(0);
+        options.Lockout.MaxFailedAccessAttempts = 50000;
+        options.Lockout.AllowedForNewUsers = true;
+
+        options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+        options.User.RequireUniqueEmail = false;
+    }
+).AddEntityFrameworkStores<RssCargoContext>().AddDefaultTokenProviders();
 
 try
 {
@@ -77,16 +77,11 @@ try
 
     app.UseStaticFiles();
     app.UseSerilogRequestLogging();
-    app.UseRouting();
 
     app.UseAuthentication();
     app.UseAuthorization();
 
-    app.UseSession();
-
-    app.MapControllerRoute(
-        name: "default",
-        pattern: "{controller=Home}/{action=Index}/{id?}");
+    app.MapControllerRoute(name: "default", pattern: "{controller=Home}/{action=Index}/{id?}");
 
     app.Run();
 }

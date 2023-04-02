@@ -13,7 +13,7 @@ public class UserService : IUserService
         _repository = repository;
     }
 
-    public int LoginUser(string email, string password)
+    public int SignInUser(string email, string password)
     {
         var user = _repository.GetUserByEmail(email);
         if (password == "")
