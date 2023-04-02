@@ -61,7 +61,6 @@ builder.Services.AddAuthentication(cookieScheme).AddCookie(cookieScheme, options
 {
     options.AccessDeniedPath = "/account/denied";
     options.LoginPath = "/account/login";
-    
 });
 
 try
@@ -79,10 +78,10 @@ try
     app.UseStaticFiles();
     app.UseSerilogRequestLogging();
     app.UseRouting();
-    
+
     app.UseAuthentication();
     app.UseAuthorization();
-    
+
     app.UseSession();
 
     app.MapControllerRoute(
@@ -93,6 +92,13 @@ try
 }
 catch (Exception ex)
 {
+    var type = ex.GetType().Name;
+    if (type.Equals("StopTheHostException", StringComparison.Ordinal))
+    {
+        Log.Information("Stopped: " + ex.Message);
+        return;
+    }
+
     Log.Fatal(ex, "App failed to start correctly");
 }
 finally

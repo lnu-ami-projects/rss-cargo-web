@@ -2,8 +2,7 @@
 
 namespace RSSCargo.DAL.Models;
 
-
-public class User: IdentityUser<int>, IEntityBase 
+public class User : IdentityUser<int>, IEntityBase
 {
     public virtual IEnumerable<UserCargo> UserCargos { get; } = new List<UserCargo>();
 

@@ -12,8 +12,8 @@ using RSSCargo.DAL.DataContext;
 namespace RSSCargo.DAL.Migrations
 {
     [DbContext(typeof(RssCargoContext))]
-    [Migration("20230330180652_AddedIdentityUser")]
-    partial class AddedIdentityUser
+    [Migration("20230402142116_Init")]
+    partial class Init
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -50,7 +50,7 @@ namespace RSSCargo.DAL.Migrations
                         .IsUnique()
                         .HasDatabaseName("RoleNameIndex");
 
-                    b.ToTable("AspNetRoles", (string)null);
+                    b.ToTable("roles", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
@@ -74,7 +74,7 @@ namespace RSSCargo.DAL.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetRoleClaims", (string)null);
+                    b.ToTable("role_claims", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
@@ -98,7 +98,7 @@ namespace RSSCargo.DAL.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserClaims", (string)null);
+                    b.ToTable("user_claims", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
@@ -119,7 +119,7 @@ namespace RSSCargo.DAL.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("AspNetUserLogins", (string)null);
+                    b.ToTable("user_logins", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
@@ -134,7 +134,7 @@ namespace RSSCargo.DAL.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AspNetUserRoles", (string)null);
+                    b.ToTable("user_roles", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
@@ -153,7 +153,7 @@ namespace RSSCargo.DAL.Migrations
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("AspNetUserTokens", (string)null);
+                    b.ToTable("user_tokens", (string)null);
                 });
 
             modelBuilder.Entity("RSSCargo.DAL.Models.Cargo", b =>
@@ -212,7 +212,8 @@ namespace RSSCargo.DAL.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer");
+                        .HasColumnType("integer")
+                        .HasColumnName("id");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
@@ -225,7 +226,8 @@ namespace RSSCargo.DAL.Migrations
 
                     b.Property<string>("Email")
                         .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
+                        .HasColumnType("character varying(256)")
+                        .HasColumnName("email");
 
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("boolean");
@@ -245,7 +247,8 @@ namespace RSSCargo.DAL.Migrations
                         .HasColumnType("character varying(256)");
 
                     b.Property<string>("PasswordHash")
-                        .HasColumnType("text");
+                        .HasColumnType("text")
+                        .HasColumnName("password_hash");
 
                     b.Property<string>("PhoneNumber")
                         .HasColumnType("text");
@@ -261,9 +264,11 @@ namespace RSSCargo.DAL.Migrations
 
                     b.Property<string>("UserName")
                         .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
+                        .HasColumnType("character varying(256)")
+                        .HasColumnName("username");
 
-                    b.HasKey("Id");
+                    b.HasKey("Id")
+                        .HasName("users_pk");
 
                     b.HasIndex("NormalizedEmail")
                         .HasDatabaseName("EmailIndex");
@@ -272,7 +277,7 @@ namespace RSSCargo.DAL.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
 
-                    b.ToTable("AspNetUsers", (string)null);
+                    b.ToTable("users", (string)null);
                 });
 
             modelBuilder.Entity("RSSCargo.DAL.Models.UserCargo", b =>
