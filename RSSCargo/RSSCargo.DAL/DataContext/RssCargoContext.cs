@@ -20,11 +20,11 @@ public class RssCargoContext : IdentityDbContext<User, IdentityRole<int>, int>
 
     public virtual DbSet<UserFeed> UserFeeds { get; set; } = null!;
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    protected override void OnModelCreating(ModelBuilder builder)
     {
-        base.OnModelCreating(modelBuilder);
+        base.OnModelCreating(builder);
 
-        modelBuilder.Entity<User>(entity =>
+        builder.Entity<User>(entity =>
         {
             entity.ToTable("users");
             entity.HasKey(e => e.Id).HasName("users_pk");
@@ -34,14 +34,14 @@ public class RssCargoContext : IdentityDbContext<User, IdentityRole<int>, int>
             entity.Property(p => p.PasswordHash).HasColumnName("password_hash");
         });
 
-        modelBuilder.Entity<IdentityRole<int>>().ToTable("roles");
-        modelBuilder.Entity<IdentityRoleClaim<int>>().ToTable("role_claims");
-        modelBuilder.Entity<IdentityUserClaim<int>>().ToTable("user_claims");
-        modelBuilder.Entity<IdentityUserLogin<int>>().ToTable("user_logins");
-        modelBuilder.Entity<IdentityUserRole<int>>().ToTable("user_roles");
-        modelBuilder.Entity<IdentityUserToken<int>>().ToTable("user_tokens");
+        builder.Entity<IdentityRole<int>>().ToTable("roles");
+        builder.Entity<IdentityRoleClaim<int>>().ToTable("role_claims");
+        builder.Entity<IdentityUserClaim<int>>().ToTable("user_claims");
+        builder.Entity<IdentityUserLogin<int>>().ToTable("user_logins");
+        builder.Entity<IdentityUserRole<int>>().ToTable("user_roles");
+        builder.Entity<IdentityUserToken<int>>().ToTable("user_tokens");
 
-        modelBuilder.Entity<Cargo>(entity =>
+        builder.Entity<Cargo>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("cargos_pk");
 
@@ -57,7 +57,7 @@ public class RssCargoContext : IdentityDbContext<User, IdentityRole<int>, int>
                 .HasColumnName("name");
         });
 
-        modelBuilder.Entity<CargoFeed>(entity =>
+        builder.Entity<CargoFeed>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("cargo_feeds_pk");
 
@@ -78,7 +78,7 @@ public class RssCargoContext : IdentityDbContext<User, IdentityRole<int>, int>
                 .HasConstraintName("cargo_feeds_cargo_id_fk");
         });
 
-        modelBuilder.Entity<UserCargo>(entity =>
+        builder.Entity<UserCargo>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("user_cargos_pk");
 
@@ -101,7 +101,7 @@ public class RssCargoContext : IdentityDbContext<User, IdentityRole<int>, int>
                 .HasConstraintName("user_cargos_user_id_fk");
         });
 
-        modelBuilder.Entity<UserFeed>(entity =>
+        builder.Entity<UserFeed>(entity =>
         {
             entity.HasKey(e => e.Id).HasName("user_feeds_pk");
 
