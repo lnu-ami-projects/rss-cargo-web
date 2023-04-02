@@ -1,4 +1,5 @@
 ﻿using System.Diagnostics;
+using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using RSSCargo.BLL.Services.Contracts;
 using RSSCargo.PL.Models;
@@ -18,6 +19,9 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
+        var user = _userService.GetUserAuthenticated(HttpContext);
+        _logger.LogInformation(user == null ? "No user logged in" : $"Logged in user: {user.UserName}");
+
         return View();
     }
 

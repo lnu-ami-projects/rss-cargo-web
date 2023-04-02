@@ -1,3 +1,8 @@
+using System.Security.Claims;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
+
 namespace RSSCargo.BLL.Services;
 
 using DAL.Models;
@@ -13,14 +18,37 @@ public class UserService : IUserService
         _repository = repository;
     }
 
-    public int SignInUser(string email, string password)
+    public User? GetUserByEmail(string email)
     {
-        var user = _repository.GetUserByEmail(email);
-        if (password == "")
-        {
-            throw new ApplicationException("password empty");
-        }
+        return _repository.GetUserByEmail(email);
+    }
 
-        return user!.Id;
+    public User? GetUserAuthenticated(HttpContext ctx)
+    {
+        var userId = ctx.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
+        return userId == null ? null : _repository.GetUserById(int.Parse(userId));
+    }
+
+    public void UserAuthenticated(HttpContext ctx, int userId)
+    {
+        var claims = new List<Claim>
+        {
+            new(ClaimTypes.NameIdentifier, userId.ToString())
+        };
+
+        var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
+        var authProperties = new AuthenticationProperties
+        {
+            IsPersistent = true,
+            AllowRefresh = true,
+            ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(200),
+            IssuedUtc = DateTimeOffset.UtcNow,
+        };
+
+        ctx.SignInAsync(
+            CookieAuthenticationDefaults.AuthenticationScheme,
+            new ClaimsPrincipal(claimsIdentity),
+            authProperties
+        ).Wait();
     }
 }

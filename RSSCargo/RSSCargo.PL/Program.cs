@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using RSSCargo.BLL.Services.Contracts;
 using RSSCargo.BLL.Services;
@@ -33,6 +34,16 @@ Log.Logger = new LoggerConfiguration()
 builder.Host.UseSerilog();
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddControllersWithViews();
+
+builder.Services
+    .AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(options =>
+        {
+            options.ExpireTimeSpan = TimeSpan.FromMinutes(200);
+            options.SlidingExpiration = true;
+            options.AccessDeniedPath = "/";
+        }
+    );
 
 builder.Services.AddDbContext<RssCargoContext>(options =>
     {
@@ -74,6 +85,11 @@ try
         app.UseExceptionHandler("/Home/Error");
         app.UseHsts();
     }
+
+    app.UseCookiePolicy(new CookiePolicyOptions
+    {
+        MinimumSameSitePolicy = SameSiteMode.Strict,
+    });
 
     app.UseStaticFiles();
     app.UseSerilogRequestLogging();

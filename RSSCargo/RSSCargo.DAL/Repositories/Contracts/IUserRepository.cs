@@ -5,6 +5,7 @@ using Models;
 public interface IUserRepository
 {
     public User? GetUserByEmail(string email);
+    public User? GetUserById(int id);
     public void CreateUser(string email, string username, string password);
     public IEnumerable<UserFeed> GetUserFeeds(int userId);
     public void AddUserFeed(int userId, string rssFeed);

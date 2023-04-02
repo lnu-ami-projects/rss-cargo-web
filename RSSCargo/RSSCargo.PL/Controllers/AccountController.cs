@@ -1,7 +1,5 @@
-using System.Security.Claims;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using RSSCargo.BLL.Services.Contracts;
 using RSSCargo.DAL.Models;
 
@@ -10,21 +8,16 @@ namespace RSSCargo.PL.Controllers;
 public class AccountController : Controller
 {
     private readonly ILogger<AccountController> _logger;
+    private readonly SignInManager<User> _signInManager;
     private readonly IUserService _userService;
 
-    private readonly UserManager<User> _userManager;
-    private readonly SignInManager<User> _signInManager;
-
-    public AccountController(ILogger<AccountController> logger, IUserService userService, UserManager<User> userManager,
+    public AccountController(ILogger<AccountController> logger, IUserService userService,
         SignInManager<User> signInManager)
     {
         _logger = logger;
         _userService = userService;
-
-        _userManager = userManager;
         _signInManager = signInManager;
     }
-
 
     [HttpGet]
     public IActionResult SignIn(string returnUrl)
@@ -33,21 +26,23 @@ public class AccountController : Controller
         return View();
     }
 
-
     [HttpPost]
     public async Task<IActionResult> SignIn(string email, string password, string? returnUrl)
     {
         ViewData["ReturnUrl"] = returnUrl;
 
-        var result = await _signInManager.PasswordSignInAsync(email, password, true, false);
-        if (result.Succeeded)
+        var user = _userService.GetUserByEmail(email);
+        if (user == null) return Redirect("/Account/SignIn");
+
+        var result = await _signInManager.PasswordSignInAsync(user.UserName, password, true, false);
+        if (!result.Succeeded)
         {
-            // TODO: Fix
-            // _signInManager.UserManager.Users.First(u => u.Id == 123);
-            return Redirect(Url.IsLocalUrl(returnUrl) ? returnUrl : "/");
+            _logger.LogError("Sign in: " + result);
+            return Redirect("/Account/SignIn");
         }
 
-        return Redirect("/Account/SignIn");
+        _userService.UserAuthenticated(HttpContext, user.Id);
+        return Redirect(Url.IsLocalUrl(returnUrl) ? returnUrl : "/");
     }
 
     [HttpGet]
@@ -58,25 +53,23 @@ public class AccountController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> SignUp(string email, string username, string password, string? returnUrl)
+    public async Task<IActionResult> SignUp(string email, string username, string password)
     {
-        ViewData["ReturnUrl"] = returnUrl;
-
-        var user = new User()
+        var user = new User
         {
             Email = email,
             UserName = username,
         };
 
         var result = await _signInManager.UserManager.CreateAsync(user, password);
-
-        if (result.Succeeded)
+        if (!result.Succeeded)
         {
-            // TODO: Fix
-            // _signInManager.UserManager.Users.First(u => u.Id == 123);
-            return Redirect(Url.IsLocalUrl(returnUrl) ? returnUrl : "/");
+            _logger.LogError("Sign up: " + result);
+            return Redirect("/Account/SignUp");
         }
 
-        return Redirect("/Account/SignUp");
+        var createdUser = _userService.GetUserByEmail(email);
+        _userService.UserAuthenticated(HttpContext, createdUser!.Id);
+        return Redirect("/Account/SignIn");
     }
 }
