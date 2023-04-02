@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RSSCargo.BLL.Services.Contracts;
@@ -71,5 +73,21 @@ public class AccountController : Controller
         var createdUser = _userService.GetUserByEmail(email);
         _userService.UserAuthenticated(HttpContext, createdUser!.Id);
         return Redirect("/Account/SignIn");
+    }
+
+    public async Task<IActionResult> UserSignOut()
+    {
+        await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+        if (HttpContext.Request.Cookies.Count <= 0) return Redirect("/");
+
+        var siteCookies = HttpContext.Request.Cookies
+            .Where(c => c.Key.Contains(".AspNetCore.") || c.Key.Contains("Microsoft.Authentication"));
+
+        foreach (var cookie in siteCookies)
+        {
+            Response.Cookies.Delete(cookie.Key);
+        }
+
+        return Redirect("/");
     }
 }

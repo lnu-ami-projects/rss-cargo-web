@@ -40,7 +40,6 @@ public class UserService : IUserService
         var authProperties = new AuthenticationProperties
         {
             IsPersistent = true,
-            AllowRefresh = true,
             ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(200),
             IssuedUtc = DateTimeOffset.UtcNow,
         };
