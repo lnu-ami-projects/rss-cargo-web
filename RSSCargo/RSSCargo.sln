@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RSSCargo.DAL", "RSSCargo.DA
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RSSCargo.BLL", "RSSCargo.BLL\RSSCargo.BLL.csproj", "{C831D873-2822-4A2C-A166-881D8B1962F7}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RSSCargo.Tests", "RSSCargo.Tests\RSSCargo.Tests.csproj", "{98387E60-FD72-4081-B738-B2D0ED6C0B82}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{C831D873-2822-4A2C-A166-881D8B1962F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C831D873-2822-4A2C-A166-881D8B1962F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C831D873-2822-4A2C-A166-881D8B1962F7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{98387E60-FD72-4081-B738-B2D0ED6C0B82}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{98387E60-FD72-4081-B738-B2D0ED6C0B82}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{98387E60-FD72-4081-B738-B2D0ED6C0B82}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{98387E60-FD72-4081-B738-B2D0ED6C0B82}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
