@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RSSCargo.BLL.Services.Contracts;
 using RSSCargo.DAL.Models;
+using Serilog;
 
 namespace RSSCargo.PL.Controllers;
 
@@ -34,18 +35,18 @@ public class AccountController : Controller
         ViewData["ReturnUrl"] = returnUrl;
 
         var user = _userService.GetUserByEmail(email);
-        if (user == null) return Redirect("/Account/SignIn");
+        if (user == null) return RedirectToAction("SignIn","Account");
 
         var result = await _signInManager.PasswordSignInAsync(user.UserName, password, true, false);
         if (!result.Succeeded)
         {
             _logger.LogError("Sign in: " + result);
-            return Redirect("/Account/SignIn");
+            return RedirectToAction("SignIn","Account");
         }
-
+        
         _userService.UserAuthenticated(HttpContext, user.Id);
-        return Redirect(Url.IsLocalUrl(returnUrl) ? returnUrl : "/");
-    }
+        return Redirect(Url.IsLocalUrl(returnUrl) ? returnUrl : "/User/Feeds");
+    } 
 
     [HttpGet]
     public IActionResult SignUp(string returnUrl)
@@ -67,18 +68,18 @@ public class AccountController : Controller
         if (!result.Succeeded)
         {
             _logger.LogError("Sign up: " + result);
-            return Redirect("/Account/SignUp");
+            return RedirectToAction("SignUp","Account");
         }
 
         var createdUser = _userService.GetUserByEmail(email);
         _userService.UserAuthenticated(HttpContext, createdUser!.Id);
-        return Redirect("/Account/SignIn");
+        return RedirectToAction("SignIn","Account");
     }
 
     public async Task<IActionResult> UserSignOut()
     {
         await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
-        if (HttpContext.Request.Cookies.Count <= 0) return Redirect("/");
+        if (HttpContext.Request.Cookies.Count <= 0) RedirectToAction("Index", "Home");
 
         var siteCookies = HttpContext.Request.Cookies
             .Where(c => c.Key.Contains(".AspNetCore.") || c.Key.Contains("Microsoft.Authentication"));
@@ -88,6 +89,6 @@ public class AccountController : Controller
             Response.Cookies.Delete(cookie.Key);
         }
 
-        return Redirect("/");
+        return RedirectToAction("Index", "Home");
     }
 }
