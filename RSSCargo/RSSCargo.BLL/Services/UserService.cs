@@ -23,10 +23,20 @@ public class UserService : IUserService
         return _repository.GetUserByEmail(email);
     }
 
+    public User? GetUserById(int id)
+    {
+        return _repository.GetUserById(id);
+    }
+
     public User? GetUserAuthenticated(HttpContext ctx)
     {
         var userId = ctx.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         return userId == null ? null : _repository.GetUserById(int.Parse(userId));
+    }
+
+    public void CreateUser(string email, string username, string password)
+    {
+        _repository.CreateUser(email, username, password);
     }
 
     public void UserAuthenticated(HttpContext ctx, int userId)
