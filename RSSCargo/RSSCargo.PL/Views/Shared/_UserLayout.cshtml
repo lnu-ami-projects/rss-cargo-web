@@ -1,0 +1,95 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="icon" type="media/image/png" href="media/image/package.png">
+    <!-- For apple devices -->
+    <link rel="apple-touch-icon" href="media/image/package.png" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow shadow-sm py-2">
+            <div class="container-fluid mx-3">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">📦 RSS Cargo</a>
+                
+            </div>
+        </nav>
+    
+    
+
+    </header>
+    <main role="main" class="d-flex flex-grow-1">
+        <nav id="sidebarMenu" class="collapse d-lg-block sidebar collapse bg-white">
+            <div class="flex-shrink-0 p-3 bg-white" style="width: 280px;">
+                
+                <ul class="list-unstyled ps-0">
+                    <li class="mb-1">
+                       
+                        <a asp-controller="Feed" asp-action="AddFeed" class="btn btn-light" role="button">Your Feeds</a>                       
+                        
+                    </li>
+                    <li class="mb-1">
+                        <button class="btn btn-light align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false" >
+                            Followed
+                        </button>
+                        <div class="collapse" id="dashboard-collapse">
+                            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                <li><a asp-controller="Feed" asp-action="Feed" class="link-dark rounded">BBC</a></li>
+                                <li><a asp-controller="Feed" asp-action="Feed" class="link-dark rounded">24/7</a></li>
+                                <li><a asp-controller="Feed" asp-action="Feed" class="link-dark rounded">CNN</a></li>                                
+                            </ul>
+                        </div>
+                    </li>
+                    
+                    <li class="border-top my-3"></li>
+                    <li class="mb-1">
+                        
+                        <a asp-controller="Cargo" asp-action="Cargo" class="btn btn-light" role="button">Follow new</a>
+
+                    </li>
+                    <li class="mb-1">
+                        <button class="btn btn-light align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
+                            Followed
+                        </button>
+                        <div class="collapse" id="dashboard-collapse">
+                            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                                <li><a asp-controller="Cargo" asp-action="Cargo" class="link-dark rounded">Title 1</a></li>
+                                <li><a asp-controller="Cargo" asp-action="Cargo" class="link-dark rounded">Title 2</a></li>
+                                <li><a asp-controller="Cargo" asp-action="Cargo" class="link-dark rounded">Title 3</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                    
+                </ul>
+            </div>
+        </nav>
+        @RenderBody()
+    </main>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
