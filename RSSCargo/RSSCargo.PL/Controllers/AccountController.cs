@@ -56,8 +56,12 @@ public class AccountController : Controller
     }
 
     [HttpPost]
-    public async Task<IActionResult> SignUp(string email, string username, string password)
+    public async Task<IActionResult> SignUp(string email, string username, string password, string cpassword)
     {
+        if (password != cpassword)
+        {
+            return RedirectToAction("SignUp","Account");
+        }
         var user = new User
         {
             Email = email,

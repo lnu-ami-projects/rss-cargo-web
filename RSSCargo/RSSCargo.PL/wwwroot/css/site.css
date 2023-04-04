@@ -6,8 +6,12 @@
   }
 }
 
-header {
+header, .logo {
   font-family: 'Ledger', serif;
+}
+
+.logo{
+  font-size: 24px;
 }
 
 body{
