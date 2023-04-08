@@ -45,7 +45,7 @@ public class AccountController : Controller
         }
         
         _userService.UserAuthenticated(HttpContext, user.Id);
-        return Redirect(Url.IsLocalUrl(returnUrl) ? returnUrl : "/User/Feeds");
+        return Redirect(Url.IsLocalUrl(returnUrl) ? returnUrl : "/Rss/Feeds");
     } 
 
     [HttpGet]
