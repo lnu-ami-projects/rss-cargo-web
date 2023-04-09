@@ -55,6 +55,8 @@ builder.Services.AddDbContext<RssCargoContext>(options =>
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserFeedService, UserFeedService>();
+builder.Services.AddScoped<IRssFeedService, RssFeedService>();
 
 builder.Services.AddIdentity<User, IdentityRole<int>>(options =>
     {

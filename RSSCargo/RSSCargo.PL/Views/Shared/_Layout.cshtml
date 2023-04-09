@@ -1,4 +1,5 @@
 ﻿@using System.Security.Claims
+@using System.Collections
 
 <!DOCTYPE html>
 <html lang="en">
@@ -44,15 +45,14 @@
                     </button>
                     <div class="collapse" id="dashboard-collapse">
                         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                            <li>
-                                <a asp-controller="Rss" asp-action="Feeds" class="link-dark rounded">BBC</a>
-                            </li>
-                            <li>
-                                <a asp-controller="Rss" asp-action="Feeds" class="link-dark rounded">24/7</a>
-                            </li>
-                            <li>
-                                <a asp-controller="Rss" asp-action="Feeds" class="link-dark rounded">CNN</a>
-                            </li>
+                            @foreach (var feed in (IEnumerable<Tuple<int, string>>)ViewData["UserFeeds"]!)
+                            {
+                                <li>
+                                    <a asp-controller="Rss" asp-action="Feeds" asp-route-feed-id="@feed.Item1" class="link-dark rounded">
+                                        @feed.Item2
+                                    </a>
+                                </li>
+                            }
                         </ul>
                     </div>
                 </li>
