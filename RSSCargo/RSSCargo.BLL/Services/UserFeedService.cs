@@ -30,6 +30,7 @@ public class UserFeedService : IUserFeedService
 
     public void RemoveUserFeed(int userId, string rssFeed)
     {
-        _repository.RemoveUserFeed(userId, rssFeed);
+        var found = _repository.GetUserFeeds(userId).First(x => x.RssFeed == rssFeed);
+        _repository.RemoveUserFeed(found);
     }
 }

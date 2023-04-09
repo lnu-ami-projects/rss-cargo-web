@@ -8,5 +8,5 @@ public class CargoFeed: IEntityBase
 
     public string RssFeed { get; set; } = string.Empty;
     
-    public virtual Cargo Cargo { get; set; } = new();
+    public virtual Cargo Cargo { get; set; }
 }

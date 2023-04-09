@@ -8,5 +8,5 @@ public class UserFeed: IEntityBase
 
     public string RssFeed { get; set; } = string.Empty;
 
-    public virtual User User { get; set; } = new();
+    public virtual User User { get; set; }
 }

@@ -26,4 +26,17 @@ public class RssFeedService : IRssFeedService
 
         return new RssFeed(feed.Id, feed.RssFeed);
     }
+
+    public bool ValidateFeed(string feedUrl)
+    {
+        try
+        {
+            var _ = new RssFeed(0, feedUrl);
+        }
+        catch
+        {
+            return false;
+        }
+        return true;
+    }
 }

@@ -47,17 +47,15 @@ public class UserRepository : IUserRepository
             UserId = userId,
             RssFeed = rssFeed,
         };
+        
         _context.UserFeeds.Add(feed);
+        _context.SaveChanges();
     }
 
-    public void RemoveUserFeed(int userId, string rssFeed)
-    {
-        var feed = new UserFeed
-        {
-            UserId = userId,
-            RssFeed = rssFeed,
-        };
-        _context.UserFeeds.Remove(feed);
+    public void RemoveUserFeed(UserFeed userFeed)
+    { 
+        _context.UserFeeds.Remove(userFeed); 
+        _context.SaveChanges();
     }
 
     public IEnumerable<UserCargo> GetUserCargos(int userId)
@@ -73,6 +71,7 @@ public class UserRepository : IUserRepository
             CargoId = cargoId,
         };
         _context.UserCargos.Add(cargo);
+        _context.SaveChanges();
     }
 
     public void UnsubscribeUserCargo(int userId, int cargoId)
@@ -83,5 +82,6 @@ public class UserRepository : IUserRepository
             CargoId = cargoId,
         };
         _context.UserCargos.Remove(cargo);
+        _context.SaveChanges();
     }
 }

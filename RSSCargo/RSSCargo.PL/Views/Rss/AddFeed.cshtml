@@ -4,38 +4,43 @@
     ViewData["Title"] = "Feeds";
 }
 <div class="border-bottom box-shadow shadow m-3 flex-grow-1">
-
-    <div class="box-shadow shadow-sm m-3 p-3 d-flex align-items-center flex-column">
-        
-        <label for="feed-url" class="h5">Add Feed link</label>
-        <div class="input-group mb-3 px-2">
-            <div class="input-group-prepend">
-                <span class="input-group-text" id="basic-addon3">https://</span>
-            </div>
-            <input type="text" class="form-control" id="feed-url" aria-describedby="feedUrl" placeholder="your_feed_link">
+   @using (Html.BeginForm("AddFeed", "Rss", FormMethod.Post))
+   {
+        <div class="box-shadow shadow-sm m-3 p-3 d-flex align-items-center flex-column">
             
-            <button type="button" class="btn btn btn-outline-dark ml-5">Add</button>
-        </div>
-    </div>
-    
-    <div class="d-flex justify-content-around">
-        @if (Model.UserFeeds != null)
-        {
-            foreach (var item in Model.UserFeeds)
-            {
-                <div class="card shadow-sm">
-                    <div class="card-body">
-                        <h5 class="card-title">@item.Title</h5>
-                        <p class="card-text">@item.Link</p>
-                        <div class="d-flex justify-content-center">
-                            <button type="button" class="btn btn-sm btn-outline-dark">Delete</button>
-                        </div>
-                    </div>
+            <label for="feed-url" class="h5">Add Feed link</label>
+            <div class="input-group mb-3 px-2">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="feed-url-addon">Link</span>
                 </div>
-            }
-        }
-    </div>
-   
+                <input type="text" name="feedUrl" class="form-control" id="feed-url" aria-describedby="feedUrl" placeholder="your_feed_link">
+
+                @* <span class="field-validation-valid text-danger" data-valmsg-for="feed-url" data-valmsg-replace="true"></span> *@
+                <button type="submit" class="btn btn btn-outline-dark ml-5">Add</button>
+            </div>
+        </div>
+   }
+   <div class="d-flex justify-content-around">
+       @if (Model.UserFeeds != null)
+       {
+           foreach (var item in Model.UserFeeds)
+           {
+               <div class="card shadow-sm">
+                   <div class="card-body">
+                       <h5 class="card-title">@item.Title</h5>
+                       <p class="card-text">@item.Link</p>
+                       <div class="d-flex justify-content-center">
+                           @using (Html.BeginForm("RemoveFeed", "Rss", FormMethod.Post))
+                           {
+                               @Html.Hidden("feedUrl", item.Link)
+                               <button type="submit" class="btn btn-sm btn-outline-dark">Delete</button>
+                           }
+                       </div>
+                   </div>
+               </div>
+           }
+       }
+   </div>
 </div>
 
     
