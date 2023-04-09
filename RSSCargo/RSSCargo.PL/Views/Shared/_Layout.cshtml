@@ -15,7 +15,7 @@
 </head>
 <body>
 <header>
-    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow shadow-sm py-2">
+    <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow shadow-sm py-2" aria-label="Header">
         <div class="container-fluid mx-3">
             <a class="navbar-brand" asp-controller="Rss" asp-action="Feeds">📦 RSS Cargo</a>
             <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarNav">
@@ -33,7 +33,7 @@
 </header>
 
 <main role="main" class="d-flex flex-grow-1">
-    <nav class="d-flex flex-column">
+    <nav class="d-flex flex-column" aria-label="SideMenu">
         <div class="sidebar border-bottom box-shadow shadow m-3 mr-0">
             <ul class="list-unstyled">
                 <li class="mb-1">
@@ -63,6 +63,9 @@
             <ul class="list-unstyled">
                 <li class="mb-1">
                     <a asp-controller="Rss" asp-action="Cargo" class="btn btn-light" role="button">Follow new</a>
+                </li>
+                <li class="mb-1">
+                    <a asp-controller="Rss" asp-action="Cargo" class="btn btn-light" role="button">Followed</a>
                 </li>
             </ul>
         </div>

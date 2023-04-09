@@ -1,61 +1,39 @@
-﻿@{
+﻿@model FeedsViewModel
+
+@{
     ViewData["Title"] = "Feeds";
 }
 <div class="border-bottom box-shadow shadow m-3 flex-grow-1">
 
-    <div class="card box-shadow shadow m-3">
-        <div class="card">
-
-            <h5 class="card-title text-center">Add Feed link</h5>
-            <input type="text" name="rssfeed"  />
-            <div class="d-flex justify-content-between col-6 mx-auto">
-                <button type="button" class="btn btn-sm btn-outline-secondary w-75">Add</button>
-
-            </div> 
+    <div class="box-shadow shadow-sm m-3 p-3 d-flex align-items-center flex-column">
+        
+        <label for="feed-url" class="h5">Add Feed link</label>
+        <div class="input-group mb-3 px-2">
+            <div class="input-group-prepend">
+                <span class="input-group-text" id="basic-addon3">https://</span>
+            </div>
+            <input type="text" class="form-control" id="feed-url" aria-describedby="feedUrl" placeholder="your_feed_link">
+            
+            <button type="button" class="btn btn btn-outline-dark ml-5">Add</button>
         </div>
     </div>
     
-
-    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 ">
-        <div class="col">
-            <div class="card shadow-sm">
-    
-                <div class="card-body">
-                    <h5 class="card-title">Feed title</h5>
-                    <p class="card-text">Feed link</p>
-                    <div class="d-flex justify-content-between col-6 mx-auto">
-                        <button type="button" class="btn btn-sm btn-outline-secondary w-75">Delete</button>
-    
+    <div class="d-flex justify-content-around">
+        @if (Model.UserFeeds != null)
+        {
+            foreach (var item in Model.UserFeeds)
+            {
+                <div class="card shadow-sm">
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Title</h5>
+                        <p class="card-text">@item.Link</p>
+                        <div class="d-flex justify-content-center">
+                            <button type="button" class="btn btn-sm btn-outline-dark">Delete</button>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card shadow-sm">
-    
-                <div class="card-body">
-                    <h5 class="card-title">Feed title</h5>
-                    <p class="card-text">Feed link</p>
-                    <div class="d-flex justify-content-between col-6 mx-auto">
-                        <button type="button" class="btn btn-sm btn-outline-secondary w-75">Delete</button>
-    
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col">
-            <div class="card shadow-sm">
-    
-                <div class="card-body">
-                    <h5 class="card-title">Feed title</h5>
-                    <p class="card-text">Feed link</p>
-                    <div class="d-flex justify-content-between col-6 mx-auto">
-                        <button type="button" class="btn btn-sm btn-outline-secondary w-75">Delete</button>
-    
-                    </div>
-                </div>
-            </div>
-        </div>
+            }
+        }
     </div>
    
 </div>

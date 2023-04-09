@@ -1,11 +1,10 @@
-﻿@model FeedsViewModel 
+﻿@model UserFeedsViewModel 
 
 @{
     ViewData["Title"] = "Feeds";
-    ViewData["UserFeeds"] = Model.UserFeeds.Select(f => new Tuple<int, string>(f.Id, f.Title));
 }
 
-<div class="border-bottom box-shadow shadow m-3 flex-grow-1">
+<div class="border-bottom box-shadow shadow m-3 flex-grow-1 pt-2">
     @if (Model.UserFeed != null)
     {
         <div class="h2 text-center">@Model.UserFeed.Title</div>
@@ -27,15 +26,24 @@
     }
     else
     {
-        @foreach (var feed in Model.UserFeeds)
+        <div class="h2 text-center">Feeds</div>
+        @if (Model.UserFeedsItems != null)
         {
-            <div>
-                <p>@feed.Title</p>
-                <p>@feed.Authors</p>
-                <p>@feed.Description</p>
-                <p>@feed.LastUpdatedTime</p>
-                <p>@feed.Items.Length</p>
-            </div>
+            foreach (var item in Model.UserFeedsItems)
+            {
+                <div class="card box-shadow shadow-sm m-3">
+                    <div class="card-header">
+                        @item.Title
+                    </div>
+                    <div class="card-body">
+                        @item.Summary
+                    </div>
+                    <div class="card-footer d-flex justify-content-around">
+                        <a href="@item.Links[0].Item2" class="card-link">Full post</a>
+                        <span>@item.PublishDate</span>
+                    </div>
+                </div>
+            }
         }
     }
 </div>

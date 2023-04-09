@@ -8,6 +8,7 @@ public class RssFeed
     public RssFeed(int id, string url)
     {
         Id = id;
+        Link = url;
 
         using var reader = XmlReader.Create(url);
         var feed = SyndicationFeed.Load(reader);
@@ -21,6 +22,9 @@ public class RssFeed
     }
 
     public int Id { get; }
+    
+    public string Link { get; }
+    
     public string Title { get; }
 
     public string Description { get; }
