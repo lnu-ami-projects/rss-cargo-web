@@ -1,13 +1,14 @@
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using RSSCargo.BLL.Services.Contracts;
 using RSSCargo.DAL.Models;
-using Serilog;
 
 namespace RSSCargo.PL.Controllers;
 
+[AllowAnonymous]
 public class AccountController : Controller
 {
     private readonly ILogger<AccountController> _logger;
@@ -29,24 +30,29 @@ public class AccountController : Controller
         return View();
     }
 
+    public IActionResult Login()
+    {
+        return RedirectToAction("SignIn");
+    }
+
     [HttpPost]
     public async Task<IActionResult> SignIn(string email, string password, string? returnUrl)
     {
         ViewData["ReturnUrl"] = returnUrl;
 
         var user = _userService.GetUserByEmail(email);
-        if (user == null) return RedirectToAction("SignIn","Account");
+        if (user == null) return RedirectToAction("SignIn", "Account");
 
         var result = await _signInManager.PasswordSignInAsync(user.UserName, password, true, false);
         if (!result.Succeeded)
         {
             _logger.LogError("Sign in: " + result);
-            return RedirectToAction("SignIn","Account");
+            return RedirectToAction("SignIn", "Account");
         }
-        
-        _userService.UserAuthenticated(HttpContext, user.Id);
+
+        _userService.UserAuthenticated(HttpContext, user.Id, user.UserName);
         return Redirect(Url.IsLocalUrl(returnUrl) ? returnUrl : "/Rss/Feeds");
-    } 
+    }
 
     [HttpGet]
     public IActionResult SignUp(string returnUrl)
@@ -60,8 +66,9 @@ public class AccountController : Controller
     {
         if (password != cpassword)
         {
-            return RedirectToAction("SignUp","Account");
+            return RedirectToAction("SignUp", "Account");
         }
+
         var user = new User
         {
             Email = email,
@@ -69,15 +76,10 @@ public class AccountController : Controller
         };
 
         var result = await _signInManager.UserManager.CreateAsync(user, password);
-        if (!result.Succeeded)
-        {
-            _logger.LogError("Sign up: " + result);
-            return RedirectToAction("SignUp","Account");
-        }
+        if (result.Succeeded) return RedirectToAction("SignIn", "Account");
 
-        var createdUser = _userService.GetUserByEmail(email);
-        _userService.UserAuthenticated(HttpContext, createdUser!.Id);
-        return RedirectToAction("SignIn","Account");
+        _logger.LogError("Sign up: " + result);
+        return RedirectToAction("SignUp", "Account");
     }
 
     public async Task<IActionResult> UserSignOut()

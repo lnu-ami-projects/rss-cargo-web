@@ -1,8 +1,10 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RSSCargo.BLL.Services.Contracts;
 
 namespace RSSCargo.PL.Controllers;
 
+[Authorize]
 public class RssController : Controller
 {
     private readonly ILogger<RssController> _logger;
@@ -20,11 +22,12 @@ public class RssController : Controller
         _logger.LogInformation(user == null ? "No user logged in" : $"Logged in user: {user.UserName}");
         return View();
     }
+
     public IActionResult AddFeed()
     {
         return View();
     }
-    
+
     public IActionResult Cargo()
     {
         return View();

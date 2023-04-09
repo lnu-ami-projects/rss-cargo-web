@@ -6,7 +6,7 @@ using DAL.Models;
 
 public interface IUserService
 {
-    public void UserAuthenticated(HttpContext ctx, int userId);
+    public void UserAuthenticated(HttpContext ctx, int userId, string username);
     public User? GetUserByEmail(string email);
     public User? GetUserById(int id);
     public User? GetUserAuthenticated(HttpContext ctx);

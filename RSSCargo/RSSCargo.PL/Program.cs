@@ -42,6 +42,8 @@ builder.Services
             options.ExpireTimeSpan = TimeSpan.FromMinutes(200);
             options.SlidingExpiration = true;
             options.AccessDeniedPath = "/";
+            options.LoginPath = "/Account/SignIn";
+            options.LogoutPath = "/Account/SignOut";
         }
     );
 

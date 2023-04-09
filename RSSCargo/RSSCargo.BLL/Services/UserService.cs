@@ -39,11 +39,12 @@ public class UserService : IUserService
         _repository.CreateUser(email, username, password);
     }
 
-    public void UserAuthenticated(HttpContext ctx, int userId)
+    public void UserAuthenticated(HttpContext ctx, int userId, string username)
     {
         var claims = new List<Claim>
         {
-            new(ClaimTypes.NameIdentifier, userId.ToString())
+            new(ClaimTypes.NameIdentifier, userId.ToString()),
+            new(ClaimTypes.Name, username)
         };
 
         var claimsIdentity = new ClaimsIdentity(claims, CookieAuthenticationDefaults.AuthenticationScheme);
