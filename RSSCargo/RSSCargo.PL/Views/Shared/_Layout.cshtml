@@ -34,6 +34,7 @@
 
 <main role="main" class="d-flex flex-grow-1">
     <nav class="d-flex flex-column" aria-label="SideMenu">
+         @* User feed side menu *@
         <div class="sidebar border-bottom box-shadow shadow m-3 mr-0">
             <ul class="list-unstyled">
                 <li class="mb-1">
@@ -45,11 +46,11 @@
                     </button>
                     <div class="collapse" id="dashboard-collapse">
                         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                            @foreach (var feed in (IEnumerable<Tuple<int, string>>)ViewData["UserFeeds"]!)
+                            @foreach (var (item1, item2) in (IEnumerable<Tuple<int, string>>) ViewData["UserFeeds"]!)
                             {
                                 <li>
-                                    <a asp-controller="Rss" asp-action="Feeds" asp-route-feed-id="@feed.Item1" class="link-dark rounded">
-                                        @feed.Item2
+                                    <a asp-controller="Rss" asp-action="Feeds" asp-route-feed-id="@item1" class="link-dark rounded">
+                                        @item2
                                     </a>
                                 </li>
                             }
@@ -59,6 +60,7 @@
             </ul>
         </div>
 
+        @* Cargo feed side menu *@
         <div class="sidebar border-bottom box-shadow shadow m-3 mr-0">
             <ul class="list-unstyled">
                 <li class="mb-1">
