@@ -4,11 +4,32 @@
     ViewData["Title"] = "Feeds";
 }
 
-<div class="border-bottom box-shadow shadow m-3 flex-grow-1 pt-2">
-    @if (Model.UserFeed != null)
+
+@if (Model.UserFeed != null)
+{
+    <div class="h2 text-center">@Model.UserFeed.Title</div>
+    @foreach (var item in Model.UserFeed.Items)
     {
-        <div class="h2 text-center">@Model.UserFeed.Title</div>
-        @foreach (var item in Model.UserFeed.Items)
+        <div class="card box-shadow shadow-sm m-3">
+            <div class="card-header">
+                @item.Title
+            </div>
+            <div class="card-body">
+                @item.Summary
+            </div>
+            <div class="card-footer d-flex justify-content-around">
+                <a href="@item.Links[0].Item2" class="card-link">Full post</a>
+                <span>@item.PublishDate</span>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <div class="h2 text-center">Feeds</div>
+    @if (Model.UserFeedsItems != null)
+    {
+        foreach (var item in Model.UserFeedsItems)
         {
             <div class="card box-shadow shadow-sm m-3">
                 <div class="card-header">
@@ -24,26 +45,4 @@
             </div>
         }
     }
-    else
-    {
-        <div class="h2 text-center">Feeds</div>
-        @if (Model.UserFeedsItems != null)
-        {
-            foreach (var item in Model.UserFeedsItems)
-            {
-                <div class="card box-shadow shadow-sm m-3">
-                    <div class="card-header">
-                        @item.Title
-                    </div>
-                    <div class="card-body">
-                        @item.Summary
-                    </div>
-                    <div class="card-footer d-flex justify-content-around">
-                        <a href="@item.Links[0].Item2" class="card-link">Full post</a>
-                        <span>@item.PublishDate</span>
-                    </div>
-                </div>
-            }
-        }
-    }
-</div>
+}

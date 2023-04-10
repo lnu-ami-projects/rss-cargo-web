@@ -9,9 +9,9 @@
     <title>@ViewData["Title"]</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css"/>
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true"/>
-    <link rel="icon" type="media/image/png" href="media/image/package.png">
+    <link rel="icon" type="media/image/png" href="/media/image/package.png">
     <!-- For apple devices -->
-    <link rel="apple-touch-icon" href="media/image/package.png"/>
+    <link rel="apple-touch-icon" href="/media/image/package.png"/>
 </head>
 <body>
 <header>
@@ -34,17 +34,17 @@
 
 <main role="main" class="d-flex flex-grow-1">
     <nav class="d-flex flex-column" aria-label="SideMenu">
-         @* User feed side menu *@
+        @* User feed side menu *@
         <div class="sidebar border-bottom box-shadow shadow m-3 mr-0">
             <ul class="list-unstyled">
                 <li class="mb-1">
                     <a asp-controller="Rss" asp-action="AddFeed" class="btn btn-light" role="button">Your Feeds</a>
                 </li>
                 <li class="mb-1">
-                    <button class="btn btn-light align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#dashboard-collapse" aria-expanded="false">
+                    <button class="btn btn-light align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#feeds-collapse" aria-expanded="false">
                         Followed
                     </button>
-                    <div class="collapse" id="dashboard-collapse">
+                    <div class="collapse" id="feeds-collapse">
                         <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                             @foreach (var (item1, item2) in (IEnumerable<Tuple<int, string>>) ViewData["UserFeeds"]!)
                             {
@@ -64,16 +64,29 @@
         <div class="sidebar border-bottom box-shadow shadow m-3 mr-0">
             <ul class="list-unstyled">
                 <li class="mb-1">
-                    <a asp-controller="Rss" asp-action="Cargo" class="btn btn-light" role="button">Follow new</a>
+                    <a asp-controller="Rss" asp-action="Cargos" class="btn btn-light" role="button">Follow new</a>
                 </li>
-                <li class="mb-1">
-                    <a asp-controller="Rss" asp-action="Cargo" class="btn btn-light" role="button">Followed</a>
-                </li>
+                <button class="btn btn-light align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#cargos-collapse" aria-expanded="false">
+                    Followed
+                </button>
+                <div class="collapse" id="cargos-collapse">
+                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                        @foreach (var (item1, item2) in (IEnumerable<Tuple<int, string>>) ViewData["UserCargos"]!)
+                        {
+                            <li>
+                                <a asp-controller="Rss" asp-action="Cargos" asp-route-feed-id="@item1" class="link-dark rounded">
+                                    @item2
+                                </a>
+                            </li>
+                        }
+                    </ul>
+                </div>
             </ul>
         </div>
     </nav>
-
-    @RenderBody()
+    <div class="border-bottom box-shadow shadow m-3 flex-grow-1 pt-2">
+        @RenderBody()
+    </div>
 </main>
 
 <script src="~/lib/jquery/dist/jquery.min.js"></script>

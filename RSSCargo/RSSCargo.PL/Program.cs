@@ -54,8 +54,11 @@ builder.Services.AddDbContext<RssCargoContext>(options =>
 );
 
 builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<ICargoRepository, CargoRepository>();
 builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<IUserFeedService, UserFeedService>();
+builder.Services.AddScoped<IUserCargoService, UserCargoService>();
+builder.Services.AddScoped<ICargoService, CargoService>();
 builder.Services.AddScoped<IRssFeedService, RssFeedService>();
 
 builder.Services.AddIdentity<User, IdentityRole<int>>(options =>
@@ -82,13 +85,9 @@ try
 {
     Log.Information("App is starting");
     var app = builder.Build();
+    
+    app.UseExceptionHandler("/Home/Error");
 
-    // Configure the HTTP request pipeline.
-    // if (!app.Environment.IsDevelopment())
-    // {
-        app.UseExceptionHandler("/Home/Error");
-    // app.UseHsts();
-    // }
 
     app.UseCookiePolicy(new CookiePolicyOptions
     {
