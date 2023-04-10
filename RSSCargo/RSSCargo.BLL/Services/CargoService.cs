@@ -36,4 +36,9 @@ public class CargoService : ICargoService
     {
         return _repository.GetCargoFeeds(cargoId);
     }
+
+    public Cargo GetCargoById(int cargoId)
+    {
+        return _repository.GetAllCargos().First(c => c.Id == cargoId);
+    }
 }

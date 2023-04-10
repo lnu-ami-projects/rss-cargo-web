@@ -35,53 +35,47 @@
 <main role="main" class="d-flex flex-grow-1">
     <nav class="d-flex flex-column" aria-label="SideMenu">
         @* User feed side menu *@
-        <div class="sidebar border-bottom box-shadow shadow m-3 mr-0">
-            <ul class="list-unstyled">
-                <li class="mb-1">
-                    <a asp-controller="Rss" asp-action="AddFeed" class="btn btn-light" role="button">Your Feeds</a>
-                </li>
-                <li class="mb-1">
-                    <button class="btn btn-light align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#feeds-collapse" aria-expanded="false">
-                        Followed
-                    </button>
-                    <div class="collapse" id="feeds-collapse">
-                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                            @foreach (var (item1, item2) in (IEnumerable<Tuple<int, string>>) ViewData["UserFeeds"]!)
-                            {
-                                <li>
-                                    <a asp-controller="Rss" asp-action="Feeds" asp-route-feed-id="@item1" class="link-dark rounded">
-                                        @item2
-                                    </a>
-                                </li>
-                            }
-                        </ul>
-                    </div>
-                </li>
-            </ul>
+        <div class="sidebar border-bottom box-shadow shadow m-3 mr-0 p-2">
+            <div class="w-100 mb-2">
+                <a asp-controller="Rss" asp-action="AddFeed" class="btn btn-outline-dark w-100" role="button">Your Feeds</a>
+            </div>
+            <button class="btn btn-outline-dark align-items-center rounded collapsed w-100 mb-2" data-bs-toggle="collapse" data-bs-target="#feeds-collapse" aria-expanded="false">
+                Followed
+            </button>
+            <div class="collapse" id="feeds-collapse">
+                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                    @foreach (var (item1, item2) in (IEnumerable<Tuple<int, string>>)ViewData["UserFeeds"]!)
+                    {
+                        <li>
+                            <a asp-controller="Rss" asp-action="Feeds" asp-route-feed-id="@item1" class="link-dark rounded">
+                                @item2
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
         </div>
 
         @* Cargo feed side menu *@
-        <div class="sidebar border-bottom box-shadow shadow m-3 mr-0">
-            <ul class="list-unstyled">
-                <li class="mb-1">
-                    <a asp-controller="Rss" asp-action="Cargos" class="btn btn-light" role="button">Follow new</a>
-                </li>
-                <button class="btn btn-light align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#cargos-collapse" aria-expanded="false">
-                    Followed
-                </button>
-                <div class="collapse" id="cargos-collapse">
-                    <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                        @foreach (var (item1, item2) in (IEnumerable<Tuple<int, string>>) ViewData["UserCargos"]!)
-                        {
-                            <li>
-                                <a asp-controller="Rss" asp-action="Cargos" asp-route-feed-id="@item1" class="link-dark rounded">
-                                    @item2
-                                </a>
-                            </li>
-                        }
-                    </ul>
-                </div>
-            </ul>
+        <div class="sidebar border-bottom box-shadow shadow m-3 mr-0 p-2">
+            <div class="w-100 mb-2">
+                <a asp-controller="Rss" asp-action="Cargos" class="btn btn-outline-dark w-100" role="button">Follow new</a>
+            </div>
+            <button class="btn btn-outline-dark align-items-center rounded collapsed w-100 mb-2" data-bs-toggle="collapse" data-bs-target="#cargos-collapse" aria-expanded="false">
+                Followed
+            </button>
+            <div class="collapse" id="cargos-collapse">
+                <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                    @foreach (var (item1, item2) in (IEnumerable<Tuple<int, string>>)ViewData["UserCargos"]!)
+                    {
+                        <li>
+                            <a asp-controller="Rss" asp-action="Cargos" asp-route-feed-id="@item1" class="link-dark rounded">
+                                @item2
+                            </a>
+                        </li>
+                    }
+                </ul>
+            </div>
         </div>
     </nav>
     <div class="border-bottom box-shadow shadow m-3 flex-grow-1 pt-2">

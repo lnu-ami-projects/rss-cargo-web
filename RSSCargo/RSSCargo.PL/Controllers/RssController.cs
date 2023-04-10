@@ -35,10 +35,13 @@ public class RssController : Controller
 
         var user = _userService.GetUserAuthenticated(HttpContext)!;
 
-        ViewData["UserFeeds"] =
-            _rssFeedService.GetUserFeeds(user.Id).Select(f => new Tuple<int, string>(f.Id, f.Title));
-        ViewData["UserCargos"] = _userCargoService.GetUserCargos(user.Id)
-            .Select(uc => new Tuple<int, string>(uc.CargoId, uc.Cargo.Name));
+        ViewData["UserFeeds"] = _rssFeedService
+            .GetUserFeeds(user.Id)
+            .Select(f => new Tuple<int, string>(f.Id, f.Title));
+
+        ViewData["UserCargos"] = _userCargoService
+            .GetUserCargos(user.Id).ToList()
+            .Select(uc => new Tuple<int, string>(uc.CargoId, _cargoService.GetCargoById(uc.CargoId).Name));
     }
 
     public IActionResult Feeds()
@@ -119,5 +122,15 @@ public class RssController : Controller
             Cargos = cargos,
             CargoFeeds = cargoFeeds
         });
+    }
+
+    public IActionResult SubToCargo()
+    {
+        var user = _userService.GetUserAuthenticated(HttpContext)!;
+        var cargoId = int.Parse(Request.Query["cargo-id"][0]!);
+
+        _userCargoService.SubscribeUserCargo(user.Id, cargoId);
+
+        return RedirectToAction("Cargos");
     }
 }

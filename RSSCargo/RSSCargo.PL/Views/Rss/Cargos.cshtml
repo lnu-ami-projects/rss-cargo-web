@@ -20,7 +20,9 @@
                     </ul>
                 </div>
                 <div class="d-flex justify-content-center">
-                    <button type="button" class="btn btn-sm btn-outline-dark">Subscribe</button>
+                    <a asp-controller="Rss" asp-action="SubToCargo" asp-route-cargo-id="@item.Id" class="btn btn-sm btn-outline-dark">
+                        Subscribe
+                    </a>
                 </div>
             </div>
         </div>
