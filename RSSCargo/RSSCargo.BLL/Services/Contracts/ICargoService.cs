@@ -6,5 +6,6 @@ public interface ICargoService
 {
     public IEnumerable<Cargo> GetAllCargos();
 
-    public IEnumerable<Cargo> GetUnsubscribeCargos(IEnumerable<int> userCargos);
+    public IEnumerable<Cargo> GetUnsubscribeCargos(int userId);
+    public IEnumerable<CargoFeed> GetCargoFeeds(int cargoId);
 }

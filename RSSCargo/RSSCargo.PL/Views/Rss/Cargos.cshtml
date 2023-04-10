@@ -4,23 +4,20 @@
     ViewData["Title"] = "Cargos";
 }
 
-<div class="d-flex justify-content-around">
+<div class="d-flex flex-wrap gap-2 justify-content-around">
 
     @foreach (var item in Model.Cargos)
     {
-        <div class="card shadow-sm">
+        <div class="card shadow-sm" style="width: 22%;">
             <div class="card-body ">
                 <h5 class="card-title">@item.Name</h5>
                 <div class="overflow-auto">
-                    @* <ul class="list-group list-group-flush"> *@
-                    @*     @foreach (var (cargoId, rssFeed) in Model.CargoFeeds) *@
-                    @*     { *@
-                    @*         @if (cargoId == item.Id) *@
-                    @*         { *@
-                    @*             <li class="list-group-item">@rssFeed</li> *@
-                    @*         } *@
-                    @*     } *@
-                    @* </ul> *@
+                    <ul class="list-group list-group-flush">
+                        @foreach (var rssFeed in Model.CargoFeeds[item.Id])
+                        {
+                            <li class="list-group-item">@rssFeed</li>
+                        }
+                    </ul>
                 </div>
                 <div class="d-flex justify-content-center">
                     <button type="button" class="btn btn-sm btn-outline-dark">Subscribe</button>

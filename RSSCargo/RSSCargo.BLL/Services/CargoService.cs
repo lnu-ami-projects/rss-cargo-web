@@ -4,22 +4,36 @@ using RSSCargo.DAL.Repositories.Contracts;
 
 namespace RSSCargo.BLL.Services;
 
-public class CargoService: ICargoService
+public class CargoService : ICargoService
 {
     private readonly ICargoRepository _repository;
+    private readonly IUserCargoService _userCargoService;
 
-    public CargoService(ICargoRepository repository)
+    public CargoService(ICargoRepository repository, IUserCargoService userCargoService)
     {
         _repository = repository;
+        _userCargoService = userCargoService;
     }
-    
+
     public IEnumerable<Cargo> GetAllCargos()
     {
         return _repository.GetAllCargos();
     }
 
-    public IEnumerable<Cargo> GetUnsubscribeCargos(IEnumerable<int> userCargos)
+    public IEnumerable<Cargo> GetUnsubscribeCargos(int userId)
     {
-        return GetAllCargos().Where(c => !userCargos.Contains(c.Id));
+        var userCargosIds = _userCargoService
+            .GetUserCargos(userId)
+            .Select(x => x.CargoId)
+            .ToArray();
+
+        var cargos = _repository.GetAllCargos();
+
+        return cargos.Where(c => !userCargosIds.Contains(c.Id));
+    }
+
+    public IEnumerable<CargoFeed> GetCargoFeeds(int cargoId)
+    {
+        return _repository.GetCargoFeeds(cargoId);
     }
 }

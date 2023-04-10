@@ -17,4 +17,9 @@ public class CargoRepository: ICargoRepository
     {
         return _context.Cargos;
     }
+    
+    public IEnumerable<CargoFeed> GetCargoFeeds(int cargoId)
+    {
+        return _context.CargoFeeds.Where(c => c.CargoId == cargoId);
+    }
 }

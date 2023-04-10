@@ -2,6 +2,8 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using RSSCargo.BLL.Services.Contracts;
+using RSSCargo.BLL.Services.Rss;
+using RSSCargo.DAL.Models;
 using RSSCargo.PL.Models;
 
 namespace RSSCargo.PL.Controllers;
@@ -16,7 +18,7 @@ public class RssController : Controller
     private readonly ICargoService _cargoService;
     private readonly IRssFeedService _rssFeedService;
 
-    public RssController(ILogger<RssController> logger, IUserService userService, IUserFeedService userFeedService, 
+    public RssController(ILogger<RssController> logger, IUserService userService, IUserFeedService userFeedService,
         IUserCargoService userCargoService, ICargoService cargoService, IRssFeedService rssFeedService)
     {
         _logger = logger;
@@ -30,11 +32,13 @@ public class RssController : Controller
     public override void OnActionExecuting(ActionExecutingContext filterContext)
     {
         base.OnActionExecuting(filterContext);
-        
+
         var user = _userService.GetUserAuthenticated(HttpContext)!;
-        
-        ViewData["UserFeeds"] = _rssFeedService.GetUserFeeds(user.Id).Select(f => new Tuple<int, string>(f.Id, f.Title));
-        ViewData["UserCargos"] = _userCargoService.GetUserCargos(user.Id).Select(uc => new Tuple<int, string>(uc.CargoId, uc.Cargo.Name) );
+
+        ViewData["UserFeeds"] =
+            _rssFeedService.GetUserFeeds(user.Id).Select(f => new Tuple<int, string>(f.Id, f.Title));
+        ViewData["UserCargos"] = _userCargoService.GetUserCargos(user.Id)
+            .Select(uc => new Tuple<int, string>(uc.CargoId, uc.Cargo.Name));
     }
 
     public IActionResult Feeds()
@@ -46,26 +50,26 @@ public class RssController : Controller
         {
             var userFeeds = _rssFeedService.GetUserFeeds(user.Id);
             var allFeedItems = userFeeds.SelectMany(feed => feed.Items);
-            var sortedFeedItems = allFeedItems.OrderBy(item => DateTime.Parse(item.PublishDate));
-            return View(new UserFeedsViewModel{UserFeedsItems = sortedFeedItems });
+            var sortedFeedItems = allFeedItems.OrderByDescending(item => DateTime.Parse(item.PublishDate));
+            return View(new UserFeedsViewModel { UserFeedsItems = sortedFeedItems });
         }
 
         var feedId = int.Parse(Request.Query["feed-id"][0]);
 
-        return View(new UserFeedsViewModel{UserFeed = _rssFeedService.GetUserFeed(user.Id, feedId)});
+        return View(new UserFeedsViewModel { UserFeed = _rssFeedService.GetUserFeed(user.Id, feedId) });
     }
 
     [HttpGet]
     public IActionResult AddFeed()
     {
         var user = _userService.GetUserAuthenticated(HttpContext)!;
-        
+
         return View(new FeedsViewModel
         {
             UserFeeds = _rssFeedService.GetUserFeeds(user.Id)
         });
     }
-    
+
     [HttpPost]
     public IActionResult AddFeed(string feedUrl)
     {
@@ -73,6 +77,7 @@ public class RssController : Controller
         {
             return RedirectToAction("AddFeed");
         }
+
         var user = _userService.GetUserAuthenticated(HttpContext)!;
         _userFeedService.AddUserFeed(user.Id, feedUrl);
         return RedirectToAction("AddFeed");
@@ -89,7 +94,7 @@ public class RssController : Controller
     public IActionResult Cargos()
     {
         var user = _userService.GetUserAuthenticated(HttpContext)!;
-        
+
         // if (Request.Query["cargo-id"].Count == 0)
         // {
         //     var userFeeds = _userCargoService.GetUserCargos(user.Id);
@@ -97,10 +102,22 @@ public class RssController : Controller
         // }
 
         // var cargoId = int.Parse(Request.Query["feed-id"][0]);
-        
+
+        var cargos = _cargoService.GetUnsubscribeCargos(user.Id).ToArray();
+        var cargoFeeds = new Dictionary<int, List<string>>();
+
+        foreach (var cargo in cargos)
+        {
+            var feeds = _cargoService.GetCargoFeeds(cargo.Id)
+                .Select(cargoCargoFeed => new RssFeed(0, cargoCargoFeed.RssFeed).Title)
+                .ToList();
+            cargoFeeds[cargo.Id] = feeds;
+        }
+
         return View(new CargosViewModel
         {
-            Cargos = _cargoService.GetUnsubscribeCargos(_userCargoService.GetUserCargos(user.Id).Select(x=> x.CargoId))
+            Cargos = cargos,
+            CargoFeeds = cargoFeeds
         });
     }
 }
