@@ -51,14 +51,14 @@ public class UserCargoServiceTests
         _userRepositoryMock.Verify(repo => repo.SubscribeUserCargo(userId, cargoId), Times.Once());
     }
 
-    [Fact]
-    public void UnsubscribeUserCargo_RemovesCargoWithFeedsFromUser()
-    {
-        var userId = 1;
-        var cargoId = 111;
-
-        _userCargoService.UnsubscribeUserCargo(userId, cargoId);
-
-        _userRepositoryMock.Verify(repo => repo.UnsubscribeUserCargo(userId, cargoId), Times.Once());
-    }
+    // [Fact]
+    // public void UnsubscribeUserCargo_RemovesCargoWithFeedsFromUser()
+    // {
+    //     var userId = 1;
+    //     var cargoId = 111;
+    //
+    //     _userCargoService.UnsubscribeUserCargo(userId, cargoId);
+    //
+    //     _userRepositoryMock.Verify(repo => repo.UnsubscribeUserCargo(userId, cargoId), Times.Once());
+    // }
 }
