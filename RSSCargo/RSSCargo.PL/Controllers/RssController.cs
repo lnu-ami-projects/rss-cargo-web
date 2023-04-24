@@ -149,9 +149,8 @@ public class RssController : Controller
             var userCargos = _userCargoService.GetUserCargos(user.Id).ToList();
 
             var cargoAllFeeds = new List<RssFeed>();
-            foreach (var userCargo in userCargos)
+            foreach (var cargoFeeds in userCargos.Select(userCargo => _cargoService.GetRssCargoFeeds(userCargo.CargoId)))
             {
-                var cargoFeeds = _cargoService.GetRssCargoFeeds(userCargo.Id).ToList();
                 cargoAllFeeds.AddRange(cargoFeeds);
             }
 
