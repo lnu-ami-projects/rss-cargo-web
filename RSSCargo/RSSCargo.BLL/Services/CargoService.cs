@@ -1,4 +1,6 @@
+using System.Collections;
 using RSSCargo.BLL.Services.Contracts;
+using RSSCargo.BLL.Services.Rss;
 using RSSCargo.DAL.Models;
 using RSSCargo.DAL.Repositories.Contracts;
 
@@ -52,5 +54,14 @@ public class CargoService : ICargoService
     public Cargo GetCargoById(int cargoId)
     {
         return _repository.GetAllCargos().First(c => c.Id == cargoId);
+    }
+
+    public IEnumerable<RssFeed> GetRssCargoFeeds(int cargoId)
+    {
+        var feeds = GetCargoFeeds(cargoId)
+            .Select(cargoCargoFeed => new RssFeed(0, cargoCargoFeed.RssFeed))
+            .ToList();
+
+        return feeds;
     }
 }

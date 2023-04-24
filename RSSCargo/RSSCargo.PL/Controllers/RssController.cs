@@ -128,7 +128,7 @@ public class RssController : Controller
 
         return RedirectToAction("YourCargos");
     }
-    
+
     public IActionResult UnsubCargo()
     {
         var user = _userService.GetUserAuthenticated(HttpContext)!;
@@ -141,6 +141,33 @@ public class RssController : Controller
 
     public IActionResult CargoFeeds()
     {
-        return View();
+        var user = _userService.GetUserAuthenticated(HttpContext)!;
+        _logger.LogInformation($"Logged in user: {user.UserName}");
+
+        if (Request.Query["cargo-id"].Count == 0)
+        {
+            var userCargos = _userCargoService.GetUserCargos(user.Id).ToList();
+
+            var cargoAllFeeds = new List<RssFeed>();
+            foreach (var userCargo in userCargos)
+            {
+                var cargoFeeds = _cargoService.GetRssCargoFeeds(userCargo.Id).ToList();
+                cargoAllFeeds.AddRange(cargoFeeds);
+            }
+
+            return View(new CargoFeedsViewModel
+            {
+                CargoName = "",
+                UserCargoFeeds = cargoAllFeeds,
+            });
+        }
+
+        var cargoId = int.Parse(Request.Query["cargo-id"][0]);
+
+        return View(new CargoFeedsViewModel
+        {
+            CargoName = _cargoService.GetCargoById(cargoId).Name,
+            UserCargoFeeds = _cargoService.GetRssCargoFeeds(cargoId)
+        });
     }
 }

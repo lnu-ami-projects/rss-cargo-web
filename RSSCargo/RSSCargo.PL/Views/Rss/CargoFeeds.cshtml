@@ -1,1 +1,33 @@
-Hello World!
+@model CargoFeedsViewModel 
+
+@{
+    ViewData["Title"] = "Cargo Feeds";
+}
+
+@if (Model.CargoName != "")
+{
+    <div class="h2 text-center">@Model.CargoName</div>
+}
+else
+{
+    <div class="h2 text-center">Cargo Feeds</div>
+}
+
+@foreach (var feeds in Model.UserCargoFeeds!)
+{
+    @foreach (var item in feeds.Items)
+    {
+        <div class="card box-shadow shadow-sm m-3">
+            <div class="card-header">
+                @item.Title
+            </div>
+            <div class="card-body">
+                @item.Summary
+            </div>
+            <div class="card-footer d-flex justify-content-around">
+                <a href="@item.Links[0].Item2" class="card-link">Full post</a>
+                <span>@item.PublishDate</span>
+            </div>
+        </div>
+    }
+}
