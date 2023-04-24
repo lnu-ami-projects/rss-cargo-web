@@ -20,7 +20,7 @@ public class CargoService : ICargoService
         return _repository.GetAllCargos();
     }
 
-    public IEnumerable<Cargo> GetUnsubscribeCargos(int userId)
+    public IEnumerable<Cargo> GetUnsubscribedCargos(int userId)
     {
         var userCargosIds = _userCargoService
             .GetUserCargos(userId)
@@ -30,6 +30,18 @@ public class CargoService : ICargoService
         var cargos = _repository.GetAllCargos();
 
         return cargos.Where(c => !userCargosIds.Contains(c.Id));
+    }
+
+    public IEnumerable<Cargo> GetSubscribedCargos(int userId)
+    {
+        var userCargosIds = _userCargoService
+            .GetUserCargos(userId)
+            .Select(x => x.CargoId)
+            .ToArray();
+
+        var cargos = _repository.GetAllCargos();
+
+        return cargos.Where(c => userCargosIds.Contains(c.Id));
     }
 
     public IEnumerable<CargoFeed> GetCargoFeeds(int cargoId)

@@ -12,5 +12,5 @@ public interface IUserRepository
     public void RemoveUserFeed(UserFeed userFeed);
     public IEnumerable<UserCargo> GetUserCargos(int userId);
     public void SubscribeUserCargo(int userId, int cargoId);
-    public void UnsubscribeUserCargo(int userId, int cargoId);
+    public void UnsubscribeUserCargo(UserCargo userCargo);
 }

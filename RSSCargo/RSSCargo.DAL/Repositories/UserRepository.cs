@@ -74,14 +74,9 @@ public class UserRepository : IUserRepository
         _context.SaveChanges();
     }
 
-    public void UnsubscribeUserCargo(int userId, int cargoId)
+    public void UnsubscribeUserCargo(UserCargo userCargo)
     {
-        var cargo = new UserCargo
-        {
-            UserId = userId,
-            CargoId = cargoId,
-        };
-        _context.UserCargos.Remove(cargo);
+        _context.UserCargos.Remove(userCargo);
         _context.SaveChanges();
     }
 }

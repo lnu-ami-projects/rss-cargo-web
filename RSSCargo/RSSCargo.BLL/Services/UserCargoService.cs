@@ -30,6 +30,7 @@ public class UserCargoService : IUserCargoService
 
     public void UnsubscribeUserCargo(int userId, int cargoId)
     {
-        _repository.UnsubscribeUserCargo(userId, cargoId);
+        var found = _repository.GetUserCargos(userId).First(x => x.CargoId == cargoId);
+        _repository.UnsubscribeUserCargo(found);
     }
 }

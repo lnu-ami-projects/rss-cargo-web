@@ -1,0 +1,62 @@
+﻿@model YourCargosViewModel
+
+@{
+    ViewData["Title"] = "Your Cargos";
+}
+
+<div class="d-flex flex-wrap gap-2 justify-content-around">
+
+    @foreach (var item in Model.SubCargos)
+    {
+        <div class="card shadow-sm" style="width: 22%;">
+            <div class="card-body">
+                <h5 class="card-title">@item.Name</h5>
+                <div class="overflow-auto">
+                    <ul class="list-group list-group-flush">
+                        @foreach (var rssFeed in Model.CargoFeeds[item.Id])
+                        {
+                            <li class="list-group-item">@rssFeed</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="text-center">
+                    <a asp-controller="Rss" asp-action="UnsubCargo" asp-route-cargo-id="@item.Id" class="btn btn-sm btn-outline-dark">
+                        Unsubscribe
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>
+
+<hr>
+
+<div class="d-flex flex-wrap gap-2 justify-content-around">
+    @foreach (var item in Model.UnsubCargos)
+    {
+        <div class="card shadow-sm" style="width: 22%;">
+            <div class="card-body d-flex flex-column align-content-around">
+                <h5 class="card-title">@item.Name</h5>
+                <div class="overflow-auto">
+                    <ul class="list-group list-group-flush">
+                        @foreach (var rssFeed in Model.CargoFeeds[item.Id])
+                        {
+                            <li class="list-group-item">@rssFeed</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+            <div class="card-footer">
+                <div class="text-center">
+                    <a asp-controller="Rss" asp-action="SubToCargo" asp-route-cargo-id="@item.Id" class="btn btn-sm btn-outline-dark">
+                        Subscribe
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+
+</div>

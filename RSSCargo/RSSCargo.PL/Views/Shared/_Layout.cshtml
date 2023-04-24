@@ -39,9 +39,16 @@
             <div class="w-100 mb-2">
                 <a asp-controller="Rss" asp-action="AddFeed" class="btn btn-outline-dark w-100" role="button">Your Feeds</a>
             </div>
-            <button class="btn btn-outline-dark align-items-center rounded collapsed w-100 mb-2" data-bs-toggle="collapse" data-bs-target="#feeds-collapse" aria-expanded="false">
-                Followed
-            </button>
+
+            <div class="btn-group w-100 mb-2 rounded" role="group">
+                <button class="btn btn-outline-dark px-0 collapsed" data-bs-toggle="collapse" data-bs-target="#feeds-collapse" aria-expanded="false">
+                    <span>&#10597;</span>
+                </button>
+                <a class="btn btn-outline-dark align-items-center w-75" asp-controller="Rss" asp-action="Feeds">
+                    Followed
+                </a>
+            </div>
+
             <div class="collapse" id="feeds-collapse">
                 <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                     @foreach (var (item1, item2) in (IEnumerable<Tuple<int, string>>)ViewData["UserFeeds"]!)
@@ -59,17 +66,24 @@
         @* Cargo feed side menu *@
         <div class="sidebar border-bottom box-shadow shadow m-3 mr-0 p-2">
             <div class="w-100 mb-2">
-                <a asp-controller="Rss" asp-action="Cargos" class="btn btn-outline-dark w-100" role="button">Follow new</a>
+                <a asp-controller="Rss" asp-action="YourCargos" class="btn btn-outline-dark w-100" role="button">Your Cargos</a>
             </div>
-            <button class="btn btn-outline-dark align-items-center rounded collapsed w-100 mb-2" data-bs-toggle="collapse" data-bs-target="#cargos-collapse" aria-expanded="false">
-                Followed
-            </button>
+
+            <div class="btn-group w-100 mb-2 rounded" role="group">
+                <button class="btn btn-outline-dark px-0 collapsed" data-bs-toggle="collapse" data-bs-target="#cargos-collapse" aria-expanded="false">
+                    <span>&#10597;</span>
+                </button>
+                <button class="btn btn-outline-dark w-75">
+                    Followed
+                </button>
+            </div>
+
             <div class="collapse" id="cargos-collapse">
                 <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
                     @foreach (var (item1, item2) in (IEnumerable<Tuple<int, string>>)ViewData["UserCargos"]!)
                     {
                         <li>
-                            <a asp-controller="Rss" asp-action="Cargos" asp-route-feed-id="@item1" class="link-dark rounded">
+                            <a asp-controller="Rss" asp-action="CargoFeeds" asp-route-cargo-id="@item1" class="link-dark rounded">
                                 @item2
                             </a>
                         </li>

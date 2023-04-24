@@ -94,22 +94,16 @@ public class RssController : Controller
         return RedirectToAction("AddFeed");
     }
 
-    public IActionResult Cargos()
+    public IActionResult YourCargos()
     {
         var user = _userService.GetUserAuthenticated(HttpContext)!;
 
-        // if (Request.Query["cargo-id"].Count == 0)
-        // {
-        //     var userFeeds = _userCargoService.GetUserCargos(user.Id);
-        //     return View();
-        // }
+        var subCargos = _cargoService.GetSubscribedCargos(user.Id).ToArray();
+        var unsubCargos = _cargoService.GetUnsubscribedCargos(user.Id).ToArray();
 
-        // var cargoId = int.Parse(Request.Query["feed-id"][0]);
-
-        var cargos = _cargoService.GetUnsubscribeCargos(user.Id).ToArray();
         var cargoFeeds = new Dictionary<int, List<string>>();
 
-        foreach (var cargo in cargos)
+        foreach (var cargo in subCargos.Concat(unsubCargos))
         {
             var feeds = _cargoService.GetCargoFeeds(cargo.Id)
                 .Select(cargoCargoFeed => new RssFeed(0, cargoCargoFeed.RssFeed).Title)
@@ -117,9 +111,10 @@ public class RssController : Controller
             cargoFeeds[cargo.Id] = feeds;
         }
 
-        return View(new CargosViewModel
+        return View(new YourCargosViewModel
         {
-            Cargos = cargos,
+            SubCargos = subCargos,
+            UnsubCargos = unsubCargos,
             CargoFeeds = cargoFeeds
         });
     }
@@ -131,6 +126,21 @@ public class RssController : Controller
 
         _userCargoService.SubscribeUserCargo(user.Id, cargoId);
 
-        return RedirectToAction("Cargos");
+        return RedirectToAction("YourCargos");
+    }
+    
+    public IActionResult UnsubCargo()
+    {
+        var user = _userService.GetUserAuthenticated(HttpContext)!;
+        var cargoId = int.Parse(Request.Query["cargo-id"][0]!);
+
+        _userCargoService.UnsubscribeUserCargo(user.Id, cargoId);
+
+        return RedirectToAction("YourCargos");
+    }
+
+    public IActionResult CargoFeeds()
+    {
+        return View();
     }
 }
