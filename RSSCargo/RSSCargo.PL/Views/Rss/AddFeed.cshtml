@@ -13,30 +13,32 @@
                 <span class="input-group-text" id="feed-url-addon">Link</span>
             </div>
             <input type="text" name="feedUrl" class="form-control" id="feed-url" aria-describedby="feedUrl" placeholder="your_feed_link">
-
-            @* <span class="field-validation-valid text-danger" data-valmsg-for="feed-url" data-valmsg-replace="true"></span> *@
             <button type="submit" class="btn btn btn-outline-dark ml-5">Add</button>
         </div>
     </div>
 }
-<div class="d-flex justify-content-around flex-wrap pt-1">
+<div class="container-fluid px-4">
     @if (Model.UserFeeds != null)
     {
-        foreach (var item in Model.UserFeeds)
+        <div class="row">
+        @foreach (var item in Model.UserFeeds)
         {
-            <div class="card shadow-sm">
-                <div class="card-body">
-                    <h5 class="card-title">@item.Title</h5>
-                    <p class="card-text">@item.Link</p>
-                    <div class="d-flex justify-content-center">
-                        @using (Html.BeginForm("RemoveFeed", "Rss", FormMethod.Post))
-                        {
-                            @Html.Hidden("feedUrl", item.Link)
-                            <button type="submit" class="btn btn-sm btn-outline-dark">Delete</button>
-                        }
+            <div class="col-4 px-2 py-1">
+                <div class="card shadow-sm ">
+                    <div class="card-body">
+                        <h5 class="card-title">@item.Title</h5>
+                        <p class="card-text">@item.Link</p>
+                        <div class="d-flex justify-content-center">
+                            @using (Html.BeginForm("RemoveFeed", "Rss", FormMethod.Post))
+                            {
+                                @Html.Hidden("feedUrl", item.Link)
+                                <button type="submit" class="btn btn-sm btn-outline-dark">Delete</button>
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
         }
+        </div>
     }
 </div>

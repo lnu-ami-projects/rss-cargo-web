@@ -4,59 +4,66 @@
     ViewData["Title"] = "Your Cargos";
 }
 
-<div class="d-flex flex-wrap gap-2 justify-content-around">
-
-    @foreach (var item in Model.SubCargos)
-    {
-        <div class="card shadow-sm" style="width: 22%;">
-            <div class="card-body">
-                <h5 class="card-title">@item.Name</h5>
-                <div class="overflow-auto">
-                    <ul class="list-group list-group-flush">
-                        @foreach (var rssFeed in Model.CargoFeeds[item.Id])
-                        {
-                            <li class="list-group-item">@rssFeed</li>
-                        }
-                    </ul>
+<h2 class="text-center pb-2">Unsubscribed Cargos</h2>
+<div class="container-fluid">
+    <div class="row">
+        @foreach (var item in Model.SubCargos)
+        {
+            <div class="col-4 px-4">
+                <div class="card shadow-sm">
+                    <div class="card-header">
+                        <h4 class="card-title">@item.Name</h4>
+                    </div>
+                    <div class="card-body overflow-auto" style="height: 7.5rem">
+                        <ul>
+                            @foreach (var rssFeed in Model.CargoFeeds[item.Id])
+                            {
+                                <li>@rssFeed</li>
+                            }
+                        </ul>
+                    </div>
+                    <div class="card-footer">
+                        <div class="text-center">
+                            <a asp-controller="Rss" asp-action="UnsubCargo" asp-route-cargo-id="@item.Id" class="btn btn-sm btn-outline-dark">
+                                Unsubscribe
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="card-footer">
-                <div class="text-center">
-                    <a asp-controller="Rss" asp-action="UnsubCargo" asp-route-cargo-id="@item.Id" class="btn btn-sm btn-outline-dark">
-                        Unsubscribe
-                    </a>
-                </div>
-            </div>
-        </div>
-    }
-
+        }
+    </div>
 </div>
 
 <hr>
 
-<div class="d-flex flex-wrap gap-2 justify-content-around">
-    @foreach (var item in Model.UnsubCargos)
-    {
-        <div class="card shadow-sm" style="width: 22%;">
-            <div class="card-body d-flex flex-column align-content-around">
-                <h5 class="card-title">@item.Name</h5>
-                <div class="overflow-auto">
-                    <ul class="list-group list-group-flush">
-                        @foreach (var rssFeed in Model.CargoFeeds[item.Id])
-                        {
-                            <li class="list-group-item">@rssFeed</li>
-                        }
-                    </ul>
+<h2 class="text-center pb-2">Subscribed Cargos</h2>
+<div class="container-fluid">
+    <div class="row">
+        @foreach (var item in Model.UnsubCargos)
+        {
+            <div class="col-4 px-4">
+                <div class="card shadow-sm">
+                    <div class="card-header">
+                        <h4 class="card-title">@item.Name</h4>
+                    </div>
+                    <div class="card-body overflow-auto" style="height: 7.5rem">
+                        <ul>
+                            @foreach (var rssFeed in Model.CargoFeeds[item.Id])
+                            {
+                                <li>@rssFeed</li>
+                            }
+                        </ul>
+                    </div>
+                    <div class="card-footer">
+                        <div class="text-center">
+                            <a asp-controller="Rss" asp-action="SubToCargo" asp-route-cargo-id="@item.Id" class="btn btn-sm btn-outline-dark">
+                                Subscribe
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
-            <div class="card-footer">
-                <div class="text-center">
-                    <a asp-controller="Rss" asp-action="SubToCargo" asp-route-cargo-id="@item.Id" class="btn btn-sm btn-outline-dark">
-                        Subscribe
-                    </a>
-                </div>
-            </div>
-        </div>
-    }
-
+        }
+    </div>
 </div>

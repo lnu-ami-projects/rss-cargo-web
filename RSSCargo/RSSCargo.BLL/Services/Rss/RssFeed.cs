@@ -18,7 +18,7 @@ public class RssFeed
         LastUpdatedTime = SyndicationGetter.GetValueOrEmpty(feed.LastUpdatedTime);
         Authors = SyndicationGetter.GetValueOrEmpty(feed.Authors);
 
-        Items = feed.Items.Select(i => new RssFeedItem(i)).ToArray();
+        Items = feed.Items.Select(i => new RssFeedItem(i, Title)).ToArray();
     }
 
     public int Id { get; }

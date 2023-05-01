@@ -16,14 +16,14 @@ internal static class SyndicationGetter
 
     public static string GetValueOrEmpty(DateTimeOffset? item)
     {
-        return item == null ? string.Empty : item.Value.ToString();
+        return item == null ? string.Empty : item.Value.ToString("dd MMM, yyyy");
     }
 
     public static string[] GetValueOrEmpty(IReadOnlyCollection<SyndicationPerson>? item)
     {
         return item == null
             ? Array.Empty<string>()
-            : item.Select(i => i.Email == string.Empty ? i.Name : i.Name + " (" + i.Email + ")").ToArray();
+            : item.Select(i => i.Email).ToArray();
     }
 
     public static Tuple<string, string>[] GetValueOrEmpty(IReadOnlyCollection<SyndicationLink>? item)

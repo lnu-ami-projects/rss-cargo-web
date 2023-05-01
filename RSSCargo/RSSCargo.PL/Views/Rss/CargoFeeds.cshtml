@@ -10,7 +10,7 @@
 }
 else
 {
-    <div class="h2 text-center">Cargo Feeds</div>
+    <div class="h2 text-center">Cargos Feeds</div>
 }
 
 @foreach (var feeds in Model.UserCargoFeeds!)
@@ -18,15 +18,29 @@ else
     @foreach (var item in feeds.Items)
     {
         <div class="card box-shadow shadow-sm m-3">
-            <div class="card-header">
-                @item.Title
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <span class="h4">
+                    @item.Title
+                </span>
+                @if (Model.CargoName != "")
+                {
+                    <span>
+                        @item.FeedTitle
+                    </span>
+                }
             </div>
             <div class="card-body">
                 @item.Summary
             </div>
-            <div class="card-footer d-flex justify-content-around">
-                <a href="@item.Links[0].Item2" class="card-link">Full post</a>
-                <span>@item.PublishDate</span>
+            <div class="card-footer d-flex justify-content-between align-items-center">
+                <a href="@item.Links[0].Item2" class="btn btn-outline-dark ">Full post</a>
+                <div class="text-right">
+                    <p class="p-date">@item.PublishDate</p>
+                    @if (item.Authors.Any())
+                    {
+                        <span>by @string.Join(", ", item.Authors)</span>
+                    }
+                </div>
             </div>
         </div>
     }

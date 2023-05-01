@@ -25,3 +25,11 @@ body{
   width: 18.75em;
   height: 18.75em;
 }
+
+.card-header, .card-footer{
+  background-color: white;
+}
+
+.p-date{
+  margin-bottom: .25rem;
+}
