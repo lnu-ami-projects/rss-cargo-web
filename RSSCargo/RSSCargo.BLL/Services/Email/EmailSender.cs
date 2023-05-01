@@ -71,11 +71,6 @@ namespace RSSCargo.BLL.Services.Email
 
                     client.Send(mailMessage);
                 }
-                catch
-                {
-                    //logging here
-                    throw;
-                }
                 finally
                 {
                     client.Disconnect(true);
@@ -95,11 +90,6 @@ namespace RSSCargo.BLL.Services.Email
                     await client.AuthenticateAsync(_emailConfig.UserName, _emailConfig.Password);
 
                     await client.SendAsync(mailMessage);
-                }
-                catch
-                {
-                    //logging here
-                    throw;
                 }
                 finally
                 {

@@ -3,6 +3,7 @@ using RSSCargo.DAL.Models;
 using RSSCargo.DAL.Repositories;
 using RSSCargo.DAL.Repositories.Contracts;
 using RSSCargo.BLL.Services.Contracts;
+using RSSCargo.BLL.Services.Email;
 using RSSCargo.PL.Controllers;
 using Microsoft.Extensions.Logging;
 using Moq;
@@ -21,6 +22,7 @@ public class AccountControllerTests
     private readonly Mock<ILogger<AccountController>> _loggerMock;
     private readonly Mock<UserManager<User>> _mockUserManager;
     private readonly Mock<SignInManager<User>> _signInManagerMock;
+    private readonly Mock<IEmailSender> _emailSenderMock;
 
     public AccountControllerTests()
     {
@@ -45,6 +47,8 @@ public class AccountControllerTests
         /* ILogger<SignInManager<TUser>> logger */null,
         /* IAuthenticationSchemeProvider schemes */null,
         /* IUserConfirmation<TUser> confirmation */null);
+
+        _emailSenderMock = new Mock<IEmailSender>();
     }
 
     [Fact]
@@ -56,7 +60,7 @@ public class AccountControllerTests
             new Claim(ClaimTypes.Email, "bill_gates@ukr.net"),
         }, "Cookies"));
         _userServiceMock.Setup(serv => serv.GetUserByEmail("bill_gates@ukr.net")).Returns((User?)null);
-        _accountController = new AccountController(_loggerMock.Object, _userServiceMock.Object, _signInManagerMock.Object);
+        _accountController = new AccountController(_loggerMock.Object, _userServiceMock.Object, _signInManagerMock.Object, _emailSenderMock.Object);
         _accountController.ControllerContext = new ControllerContext()
         {
             HttpContext = new DefaultHttpContext() { User = user }
@@ -74,7 +78,7 @@ public class AccountControllerTests
         {
             new Claim(ClaimTypes.Name, "Bill"),
         }, "Cookies"));
-        _accountController = new AccountController(_loggerMock.Object, _userServiceMock.Object, _signInManagerMock.Object);
+        _accountController = new AccountController(_loggerMock.Object, _userServiceMock.Object, _signInManagerMock.Object, _emailSenderMock.Object);
         _accountController.ControllerContext = new ControllerContext()
         {
             HttpContext = new DefaultHttpContext() { User = user }
@@ -95,7 +99,7 @@ public class AccountControllerTests
         {
             new Claim(ClaimTypes.Name, "Bill"),
         }, "Cookies"));
-        _accountController = new AccountController(_loggerMock.Object, _userServiceMock.Object, _signInManagerMock.Object);
+        _accountController = new AccountController(_loggerMock.Object, _userServiceMock.Object, _signInManagerMock.Object, _emailSenderMock.Object);
         _accountController.ControllerContext = new ControllerContext()
         {
             HttpContext = new DefaultHttpContext() { User = user }

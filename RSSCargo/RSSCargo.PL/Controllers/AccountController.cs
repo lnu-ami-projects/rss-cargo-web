@@ -90,11 +90,8 @@ public class AccountController : Controller
             _logger.LogInformation("Message formed");
 
             await _emailSender.SendEmailAsync(message);
-            _logger.LogInformation("Email sent");
-            //await _signInManager.UserManager.AddToRoleAsync(user, "Visitor");
-            _logger.LogInformation("User needs to check for new emails");
+            _logger.LogInformation("Email sent. User needs to check for new emails");
 
-            //return RedirectToAction("SignIn", "Account");
             return RedirectToAction("SuccessRegistration", "Account");
         }
 

@@ -74,7 +74,7 @@ builder.Services.AddIdentity<User, IdentityRole<int>>(options =>
         options.Password.RequiredLength = 1;
         options.Password.RequiredUniqueChars = 0;
 
-        options.SignIn.RequireConfirmedEmail = true;
+        //options.SignIn.RequireConfirmedEmail = true;
 
         options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(0);
         options.Lockout.MaxFailedAccessAttempts = 50000;
@@ -94,12 +94,6 @@ builder.Services.Configure<DataProtectionTokenProviderOptions>(opt =>
 
 builder.Services.Configure<EmailConfirmationTokenProviderOptions>(opt =>
                 opt.TokenLifespan = TimeSpan.FromDays(3));
-
-//builder.Services.Configure<EmailConfiguration>(builder.Configuration.GetSection("EmailConfiguration"));
-
-
-//builder.Services.AddTransient<IEmailSender, EmailSender>();
-//builder.Services.Configure<EmailConfiguration>(builder.Configuration);
 
 var emailConfig = builder.Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>(); 
 builder.Services.AddSingleton(emailConfig);
