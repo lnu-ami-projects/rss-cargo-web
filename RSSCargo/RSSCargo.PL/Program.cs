@@ -2,12 +2,14 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using RSSCargo.BLL.Services.Contracts;
+using RSSCargo.BLL.Services.Email;
 using RSSCargo.BLL.Services;
 using RSSCargo.DAL.DataContext;
 using RSSCargo.DAL.Models;
 using RSSCargo.DAL.Repositories.Contracts;
 using RSSCargo.DAL.Repositories;
 using Serilog;
+using RSSCargo.PL.CustomTokenProviders;
 
 // Load .env file
 const string envPath = ".env";
@@ -72,14 +74,36 @@ builder.Services.AddIdentity<User, IdentityRole<int>>(options =>
         options.Password.RequiredLength = 1;
         options.Password.RequiredUniqueChars = 0;
 
+        options.SignIn.RequireConfirmedEmail = true;
+
         options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(0);
         options.Lockout.MaxFailedAccessAttempts = 50000;
         options.Lockout.AllowedForNewUsers = true;
 
         options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
         options.User.RequireUniqueEmail = false;
+
+        options.Tokens.EmailConfirmationTokenProvider = "emailconfirmation";
     }
-).AddEntityFrameworkStores<RssCargoContext>().AddDefaultTokenProviders();
+).AddEntityFrameworkStores<RssCargoContext>()
+.AddDefaultTokenProviders()
+.AddTokenProvider<EmailConfirmationTokenProvider<User>>("emailconfirmation");
+
+builder.Services.Configure<DataProtectionTokenProviderOptions>(opt =>
+               opt.TokenLifespan = TimeSpan.FromHours(2));
+
+builder.Services.Configure<EmailConfirmationTokenProviderOptions>(opt =>
+                opt.TokenLifespan = TimeSpan.FromDays(3));
+
+//builder.Services.Configure<EmailConfiguration>(builder.Configuration.GetSection("EmailConfiguration"));
+
+
+//builder.Services.AddTransient<IEmailSender, EmailSender>();
+//builder.Services.Configure<EmailConfiguration>(builder.Configuration);
+
+var emailConfig = builder.Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>(); 
+builder.Services.AddSingleton(emailConfig);
+builder.Services.AddScoped<IEmailSender, EmailSender>();
 
 try
 {

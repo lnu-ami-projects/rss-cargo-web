@@ -50,16 +50,4 @@ public class UserFeedServiceTests
 
         _userRepositoryMock.Verify(repo => repo.AddUserFeed(userId, rssFeed), Times.Once());
     }
-
-    //[Fact]
-    //public void RemoveUserFeed_RemovesFeedFromUser()
-    //{
-    //    var userId = 1;
-    //    var rssFeed = "feed1";
-        
-
-    //    _userFeedService.RemoveUserFeed(userId, rssFeed);
-
-    //    _userRepositoryMock.Verify(repo => repo.RemoveUserFeed(repo.GetUserFeeds(userId).First(uf=> uf.RssFeed == rssFeed)), Times.Once());
-    //}
 }
