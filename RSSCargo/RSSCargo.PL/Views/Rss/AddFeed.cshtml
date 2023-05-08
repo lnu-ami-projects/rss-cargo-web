@@ -6,7 +6,6 @@
 @using (Html.BeginForm("AddFeed", "Rss", FormMethod.Post))
 {
     <div class="box-shadow shadow-sm m-3 p-3 d-flex align-items-center flex-column">
-
         <label for="feed-url" class="h5">Add Feed link</label>
         <div class="input-group mb-3 px-2">
             <div class="input-group-prepend">
@@ -20,25 +19,27 @@
 <div class="container-fluid px-4">
     @if (Model.UserFeeds != null)
     {
-        <div class="row">
-        @foreach (var item in Model.UserFeeds)
-        {
-            <div class="col-4 px-2 py-1">
-                <div class="card shadow-sm ">
-                    <div class="card-body">
-                        <h5 class="card-title">@item.Title</h5>
-                        <p class="card-text">@item.Link</p>
-                        <div class="d-flex justify-content-center">
+        <div class="row pb-3">
+            @foreach (var item in Model.UserFeeds)
+            {
+                <div class="col-12 col-xl-6 col-xxl-4 px-2 py-2">
+                    <div class="card shadow-sm h-100">
+                        <div class="card-header fs-5">
+                            @item.Title
+                        </div>
+                        <div class="card-body font-monospace">
+                            @item.Link
+                        </div>
+                        <div class="card-footer text-center px-2">
                             @using (Html.BeginForm("RemoveFeed", "Rss", FormMethod.Post))
                             {
                                 @Html.Hidden("feedUrl", item.Link)
-                                <button type="submit" class="btn btn-sm btn-outline-dark">Delete</button>
+                                <button type="submit" class="btn w-100 btn-sm btn-outline-dark">Delete</button>
                             }
                         </div>
                     </div>
                 </div>
-            </div>
-        }
+            }
         </div>
     }
 </div>

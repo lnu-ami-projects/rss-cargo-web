@@ -1,35 +1,57 @@
 ﻿@import url('https://fonts.googleapis.com/css2?family=Ledger&display=swap');
 
 @media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+    html {
+        font-size: 16px;
+    }
 }
 
 header, .logo {
-  font-family: 'Ledger', serif;
+    font-family: 'Ledger', serif;
 }
 
-.logo{
-  font-size: 24px;
+.logo {
+    font-size: 24px;
 }
 
-body{
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  font-family: 'Ledger', serif;
+body {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Ledger', serif;
 }
 
-.sidebar{
-  width: 18.75em;
-  height: 18.75em;
+.sidebar {
+    width: 18.75em;
+    /*height: 18.75em;*/
 }
 
-.card-header, .card-footer{
-  background-color: white;
+.card-header, .card-footer {
+    background-color: white;
 }
 
-.p-date{
-  margin-bottom: .25rem;
+.p-date {
+    margin-bottom: .25rem;
+}
+
+.c1 {
+    justify-content: end;
+}
+
+@media (max-width: 768px) {
+    .c1  {
+        justify-content: center;
+    }
+    
+    .c2 {
+        flex-direction: column;
+    }
+
+    .sidebar {
+        width: calc(100% - 32px);
+    }
+}
+
+@media (max-width: 570px) {
+    
 }

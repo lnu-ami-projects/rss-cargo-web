@@ -5,16 +5,16 @@
 }
 
 <h2 class="text-center pb-2">Unsubscribed Cargos</h2>
-<div class="container-fluid">
-    <div class="row">
+<div class="container-fluid px-4">
+    <div class="row pb-3">
         @foreach (var item in Model.SubCargos)
         {
-            <div class="col-4 px-4">
-                <div class="card shadow-sm">
-                    <div class="card-header">
-                        <h4 class="card-title">@item.Name</h4>
+            <div class="col-12 col-xl-6 col-xxl-4 px-2 py-2">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header fs-5">
+                        @item.Name
                     </div>
-                    <div class="card-body overflow-auto" style="height: 7.5rem">
+                    <div class="card-body overflow-auto" style="max-height: 7.5rem">
                         <ul>
                             @foreach (var rssFeed in Model.CargoFeeds[item.Id])
                             {
@@ -22,12 +22,10 @@
                             }
                         </ul>
                     </div>
-                    <div class="card-footer">
-                        <div class="text-center">
-                            <a asp-controller="Rss" asp-action="UnsubCargo" asp-route-cargo-id="@item.Id" class="btn btn-sm btn-outline-dark">
-                                Unsubscribe
-                            </a>
-                        </div>
+                    <div class="card-footer text-center px-2">
+                        <a asp-controller="Rss" asp-action="UnsubCargo" asp-route-cargo-id="@item.Id" class="btn w-100 btn-sm btn-outline-dark">
+                            Unsubscribe
+                        </a>
                     </div>
                 </div>
             </div>
@@ -38,16 +36,16 @@
 <hr>
 
 <h2 class="text-center pb-2">Subscribed Cargos</h2>
-<div class="container-fluid">
-    <div class="row">
+<div class="container-fluid px-4">
+    <div class="row pb-3">
         @foreach (var item in Model.UnsubCargos)
         {
-            <div class="col-4 px-4">
-                <div class="card shadow-sm">
-                    <div class="card-header">
-                        <h4 class="card-title">@item.Name</h4>
+            <div class="col-12 col-xl-6 col-xxl-4 px-2 py-2">
+                <div class="card shadow-sm h-100">
+                    <div class="card-header fs-5">
+                        @item.Name
                     </div>
-                    <div class="card-body overflow-auto" style="height: 7.5rem">
+                    <div class="card-body overflow-auto" style="max-height: 7.5rem">
                         <ul>
                             @foreach (var rssFeed in Model.CargoFeeds[item.Id])
                             {
@@ -55,12 +53,10 @@
                             }
                         </ul>
                     </div>
-                    <div class="card-footer">
-                        <div class="text-center">
-                            <a asp-controller="Rss" asp-action="SubToCargo" asp-route-cargo-id="@item.Id" class="btn btn-sm btn-outline-dark">
-                                Subscribe
-                            </a>
-                        </div>
+                    <div class="card-footer text-center px-2">
+                        <a asp-controller="Rss" asp-action="SubToCargo" asp-route-cargo-id="@item.Id" class="btn w-100 btn-sm btn-outline-dark">
+                            Subscribe
+                        </a>
                     </div>
                 </div>
             </div>
