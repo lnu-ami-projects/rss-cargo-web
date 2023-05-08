@@ -17,10 +17,10 @@
             <div class="card-body">
                 @item.Summary
             </div>
-            <div class="card-footer d-flex justify-content-between align-items-center">
+            <div class="card-footer d-flex justify-content-between align-items-center px-2">
                 <a href="@item.Links[0].Item2" class="btn btn-outline-dark ">Full post</a>
-                <div class="text-right">
-                    <p class="p-date">@item.PublishDate</p>
+                <div class="text-right mx-2">
+                    @item.PublishDate
                     @if (item.Authors.Any())
                     {
                         <span>by @string.Join(", ", item.Authors)</span>
@@ -49,10 +49,10 @@ else
                 <div class="card-body">
                     @item.Summary
                 </div>
-                <div class="card-footer d-flex justify-content-between align-items-center">
+                <div class="card-footer d-flex justify-content-between align-items-center px-2">
                     <a href="@item.Links[0].Item2" class="btn btn-outline-dark ">Full post</a>
-                    <div class="text-right">
-                        <p class="p-date">@item.PublishDate</p>
+                    <div class="text-right mx-2">
+                        @item.PublishDate
                         @if (item.Authors.Any())
                         {
                             <span>by @string.Join(", ", item.Authors)</span>
