@@ -87,7 +87,7 @@ public class RssControllerTests
         RedirectToActionResult result = (RedirectToActionResult)_rssController.RemoveFeed(feedFirst.Link);
 
         Assert.IsType<RedirectToActionResult>(result);
-        Assert.Equal(null, result.ControllerName);
+        Assert.Null(result.ControllerName);
         Assert.Equal("AddFeed", result.ActionName);
     }
 
@@ -102,7 +102,7 @@ public class RssControllerTests
         RedirectToActionResult result = (RedirectToActionResult)_rssController.AddFeed(feedFirst.Link);
 
         Assert.IsType<RedirectToActionResult>(result);
-        Assert.Equal(null, result.ControllerName);
+        Assert.Null(result.ControllerName);
         Assert.Equal("AddFeed", result.ActionName);
     }
 
@@ -131,7 +131,7 @@ public class RssControllerTests
         RedirectToActionResult result = (RedirectToActionResult)_rssController.AddFeed(feedFirst.Link);
 
         Assert.IsType<RedirectToActionResult>(result);
-        Assert.Equal(null, result.ControllerName);
+        Assert.Null(result.ControllerName);
         Assert.Equal("AddFeed", result.ActionName);
     }
 }

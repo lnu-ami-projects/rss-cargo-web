@@ -17,8 +17,59 @@ public class UserFeedServiceTests
         _userFeedService = new UserFeedService(_userRepositoryMock.Object);
     }
 
+    [Theory]
+    [InlineData(1, 2)]
+    [InlineData(2, 0)]
+    public void GetUserFeeds_ReturnsFeedsOfUser(int expectedUserId, int expectedCount)
+    {
+        var userFeeds = GetFeedsOfUser();
+        var userId = userFeeds[0].UserId;
+        _userRepositoryMock.Setup(repo => repo.GetUserFeeds(userId)).Returns(userFeeds);
+
+        var result = _userFeedService.GetUserFeeds(expectedUserId);
+
+        Assert.Equal(expectedCount, result.Count());
+    }
+
     [Fact]
-    public void GetUserFeeds_ReturnsFeedsOfUser()
+    public void AddUserFeed_AddsFeedToUser()
+    {
+        var userId = 1;
+        var rssFeed = "feed1";
+
+        _userFeedService.AddUserFeed(userId, rssFeed);
+
+        _userRepositoryMock.Verify(repo => repo.AddUserFeed(userId, rssFeed), Times.Once());
+    }
+
+    [Fact]
+    public void RemoveUserFeed_RemovesFeedFromUser()
+    {
+        var userFeeds = GetFeedsOfUser();
+        var userId = userFeeds[0].UserId;
+        var feedRss = userFeeds[0].RssFeed;
+        var feedToBeRemoved = userFeeds[0];
+
+        _userRepositoryMock.Setup(repo => repo.GetUserFeeds(userId)).Returns(userFeeds);
+        _userFeedService.RemoveUserFeed(userId, feedRss);
+
+        _userRepositoryMock.Verify(repo => repo.RemoveUserFeed(feedToBeRemoved), Times.Once());
+    }
+
+    [Fact]
+    public void RemoveUserFeed_ExceptionWhileRemovingFeedFromUser()
+    {
+        var userFeeds = GetFeedsOfUser();
+        var userId = userFeeds[0].UserId;
+        var incorrectUserId = 123;
+        var feedRss = userFeeds[0].RssFeed;
+
+        _userRepositoryMock.Setup(repo => repo.GetUserFeeds(userId)).Returns(userFeeds);
+
+        Assert.Throws<InvalidOperationException>(() => _userFeedService.RemoveUserFeed(incorrectUserId, feedRss));
+    }
+
+    private List<UserFeed> GetFeedsOfUser()
     {
         var userId = 1;
         var rssFeedFirst = "feed1";
@@ -33,21 +84,7 @@ public class UserFeedServiceTests
             UserId = userId,
             RssFeed = rssFeedSecond
         };
-        _userRepositoryMock.Setup(repo => repo.GetUserFeeds(userId)).Returns(new List<UserFeed> { feedFirst, feedSecond });
 
-        var result = _userFeedService.GetUserFeeds(userId);
-
-        Assert.Equal(2, result.Count());
-    }
-
-    [Fact]
-    public void AddUserFeed_AddsFeedToUser()
-    {
-        var userId = 1;
-        var rssFeed = "feed1";
-
-        _userFeedService.AddUserFeed(userId, rssFeed);
-
-        _userRepositoryMock.Verify(repo => repo.AddUserFeed(userId, rssFeed), Times.Once());
+        return new List<UserFeed> { feedFirst, feedSecond };
     }
 }
