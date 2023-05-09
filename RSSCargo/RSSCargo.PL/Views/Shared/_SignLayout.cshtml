@@ -13,28 +13,25 @@
 </head>
 <body>
 <div>
-  <header class="px-5 ms-xl-4 mt-5">
-    <a class="logo text-decoration-none text-black" asp-controller="Home" asp-action="Index">📦 RSS Cargo</a>
+  <header>
+      <nav class="navbar navbar-light bg-white border-bottom box-shadow shadow-sm py-2">
+          <div class="container-fluid mx-3">
+              <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">📦 RSS Cargo</a>
+          </div>
+      </nav>
   </header>
   
-  <main>
-    <div class="container-fluid">
-      <div class="row">
-        <div class="col-lg-6 col-12 text-black">
-          <div class="d-flex align-items-center h-custom-2 px-5 ms-xl-4 mt-5 pt-5 pt-xl-0 mt-xl-n5">
-            <div class="shadow p-4 rounded">
-              @RenderBody()
+    <main>
+        <div class="d-flex justify-content-center">
+            <div class="text-black">
+                <div class="d-flex align-items-center h-custom-2 px-5 pt-sm-5 pt-xl-0 mt-xl-5">
+                    <div class="shadow p-4 rounded">
+                        @RenderBody()
+                    </div>
+                </div>
             </div>
-          </div>
-
         </div>
-        <div class="col-lg-6 px-0 d-none d-lg-block">
-          <img src="/media/image/sign.png"
-               alt="Sign In image" class="w-100">
-        </div>
-      </div>
-    </div>
-  </main>
+    </main>
 
 
   <script src="~/lib/jquery/dist/jquery.min.js"></script>

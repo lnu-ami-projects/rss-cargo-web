@@ -3,7 +3,7 @@
     Layout = "_SignLayout";
 }
 
-<form  asp-controller="Account" asp-action="SignUp"  asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" style="width: 23rem;">
+<form  asp-controller="Account" asp-action="SignUp"  asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="sign-form">
     
   <h3 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Sign Up</h3>
 
@@ -30,5 +30,5 @@
         <button class="btn btn-dark btn-lg btn-block" type="submit">Register</button>
     </div>
     
-    <p>Already have an account? <a asp-controller="Account" asp-action="SignIn" class="link-secondary">Sign In here</a></p>
+    <p class="mb-0">Already have an account? <a asp-controller="Account" asp-action="SignIn" class="link-secondary">Sign In here</a></p>
 </form>
