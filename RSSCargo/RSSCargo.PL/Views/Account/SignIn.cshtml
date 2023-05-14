@@ -1,3 +1,5 @@
+@model SignInViewModel
+
 @{
     ViewData["Title"] = "Sign In";
     Layout = "_SignLayout";
@@ -9,14 +11,16 @@
 
   <div class="form-outline mb-4">
     <label class="form-label" for="email">Email address</label>
-    <input type="email" name="email" id="email" class="form-control form-control-lg" placeholder="e.g., example@mail.com" required/>
+    <input type="email" name="email" id="email" class="form-control form-control-lg" placeholder="e.g., example@mail.com"/>
+    @Html.ValidationMessageFor(m => m.Email)
   </div>
 
   <div class="form-outline mb-4">
     <label class="form-label" for="password">Password</label>
-    <input type="password" name="password" id="password" class="form-control form-control-lg"  placeholder="e.g., · · · · · · · ·" required=""/>
+    <input type="password" name="password" id="password" class="form-control form-control-lg"  placeholder="e.g., · · · · · · · ·"/>
+    @Html.ValidationMessageFor(m => m.Password)
+    @Html.ValidationMessage("EmailPassword")
   </div>
-
   <div class="pt-1 mb-4">
     <button class="btn btn-dark btn-lg btn-block" type="submit">Login</button>
   </div>
