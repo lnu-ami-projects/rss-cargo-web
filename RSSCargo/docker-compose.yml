@@ -1,0 +1,18 @@
+﻿version: "3.8"
+
+services:
+  rss-cargo-web:
+    image: "rss-cargo-web:latest"
+    container_name: "rss-cargo"
+    build:
+      context: .
+      target: release
+      dockerfile: RSSCargo.PL/Dockerfile
+    ports:
+      - "7012:80"
+    env_file:
+      - "RSSCargo.PL/.env"
+
+networks:
+  default:
+    name: rss-web

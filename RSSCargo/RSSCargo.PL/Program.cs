@@ -64,38 +64,39 @@ builder.Services.AddScoped<ICargoService, CargoService>();
 builder.Services.AddScoped<IRssFeedService, RssFeedService>();
 
 builder.Services.AddIdentity<User, IdentityRole<int>>(options =>
-    {
-        options.SignIn.RequireConfirmedEmail = false;
+        {
+            options.SignIn.RequireConfirmedEmail = false;
 
-        options.Password.RequireDigit = false;
-        options.Password.RequireLowercase = false;
-        options.Password.RequireNonAlphanumeric = false;
-        options.Password.RequireUppercase = false;
-        options.Password.RequiredLength = 1;
-        options.Password.RequiredUniqueChars = 0;
+            options.Password.RequireDigit = false;
+            options.Password.RequireLowercase = false;
+            options.Password.RequireNonAlphanumeric = false;
+            options.Password.RequireUppercase = false;
+            options.Password.RequiredLength = 1;
+            options.Password.RequiredUniqueChars = 0;
 
-        //options.SignIn.RequireConfirmedEmail = true;
+            //options.SignIn.RequireConfirmedEmail = true;
 
-        options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(0);
-        options.Lockout.MaxFailedAccessAttempts = 50000;
-        options.Lockout.AllowedForNewUsers = true;
+            options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(0);
+            options.Lockout.MaxFailedAccessAttempts = 50000;
+            options.Lockout.AllowedForNewUsers = true;
 
-        options.User.AllowedUserNameCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
-        options.User.RequireUniqueEmail = false;
+            options.User.AllowedUserNameCharacters =
+                "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
+            options.User.RequireUniqueEmail = false;
 
-        options.Tokens.EmailConfirmationTokenProvider = "emailconfirmation";
-    }
-).AddEntityFrameworkStores<RssCargoContext>()
-.AddDefaultTokenProviders()
-.AddTokenProvider<EmailConfirmationTokenProvider<User>>("emailconfirmation");
+            options.Tokens.EmailConfirmationTokenProvider = "emailconfirmation";
+        }
+    ).AddEntityFrameworkStores<RssCargoContext>()
+    .AddDefaultTokenProviders()
+    .AddTokenProvider<EmailConfirmationTokenProvider<User>>("emailconfirmation");
 
 builder.Services.Configure<DataProtectionTokenProviderOptions>(opt =>
-               opt.TokenLifespan = TimeSpan.FromHours(2));
+    opt.TokenLifespan = TimeSpan.FromHours(2));
 
 builder.Services.Configure<EmailConfirmationTokenProviderOptions>(opt =>
-                opt.TokenLifespan = TimeSpan.FromDays(3));
+    opt.TokenLifespan = TimeSpan.FromDays(3));
 
-var emailConfig = builder.Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>(); 
+var emailConfig = builder.Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>();
 builder.Services.AddSingleton(emailConfig);
 builder.Services.AddScoped<IEmailSender, EmailSender>();
 
@@ -103,9 +104,8 @@ try
 {
     Log.Information("App is starting");
     var app = builder.Build();
-    
-    app.UseExceptionHandler("/Home/Error");
 
+    app.UseExceptionHandler("/Home/Error");
 
     app.UseCookiePolicy(new CookiePolicyOptions
     {
