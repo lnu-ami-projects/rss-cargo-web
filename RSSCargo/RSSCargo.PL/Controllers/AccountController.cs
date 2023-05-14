@@ -43,7 +43,6 @@ public class AccountController : Controller
     public async Task<IActionResult> SignIn(SignInViewModel model, string? returnUrl)
     {
         if (!ModelState.IsValid) return View("SignIn", model);
-        
 
         var user = _userService.GetUserByEmail(model.Email);
         if (user == null)

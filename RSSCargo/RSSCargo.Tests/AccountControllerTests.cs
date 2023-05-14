@@ -56,8 +56,8 @@ public class AccountControllerTests
     {
         var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
         {
-            new Claim(ClaimTypes.Name, "Bill"),
-            new Claim(ClaimTypes.Email, "bill_gates@ukr.net"),
+            new (ClaimTypes.Name, "Bill"),
+            new (ClaimTypes.Email, "bill_gates@ukr.net"),
         }, "Cookies"));
         _userServiceMock.Setup(serv => serv.GetUserByEmail("bill_gates@ukr.net")).Returns((User?)null);
         _accountController = new AccountController(_loggerMock.Object, _userServiceMock.Object, _signInManagerMock.Object, _emailSenderMock.Object);
@@ -72,7 +72,7 @@ public class AccountControllerTests
     }
 
     [Fact]
-    public async Task LogIn_ReturnsARedirectToActionResult()
+    public Task LogIn_ReturnsARedirectToActionResult()
     {
         var user = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
         {
@@ -89,6 +89,7 @@ public class AccountControllerTests
         Assert.IsType<RedirectToActionResult>(result);
         Assert.Equal(null, result.ControllerName);
         Assert.Equal("SignIn", result.ActionName);
+        return Task.CompletedTask;
     }
 
     [Fact]

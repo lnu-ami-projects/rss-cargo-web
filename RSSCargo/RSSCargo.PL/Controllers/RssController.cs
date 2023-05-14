@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using RSSCargo.BLL.Services.Contracts;
 using RSSCargo.BLL.Services.Rss;
-using RSSCargo.DAL.Models;
 using RSSCargo.PL.Models;
 
 namespace RSSCargo.PL.Controllers;
@@ -29,9 +28,9 @@ public class RssController : Controller
         _rssFeedService = rssFeedService;
     }
 
-    public override void OnActionExecuting(ActionExecutingContext filterContext)
+    public override void OnActionExecuting(ActionExecutingContext context)
     {
-        base.OnActionExecuting(filterContext);
+        base.OnActionExecuting(context);
 
         var user = _userService.GetUserAuthenticated(HttpContext)!;
 
