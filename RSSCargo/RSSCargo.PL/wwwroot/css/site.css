@@ -189,3 +189,8 @@ h1{
 ::placeholder {
     font-size: 15px;
 }
+
+.field-validation-error{
+    color: red;
+    font-size: 13px;
+}

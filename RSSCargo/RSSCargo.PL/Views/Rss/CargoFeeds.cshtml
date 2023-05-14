@@ -17,14 +17,14 @@ else
 {
     @foreach (var item in feeds.Items)
     {
-        <div class="card box-shadow shadow-sm m-3">
+        <div class="card box-shadow border-secondary shadow-sm m-sm-4 m-3">
             <div class="card-header d-flex justify-content-between align-items-center">
                 <span class="h4">
                     @item.Title
                 </span>
                 @if (Model.CargoName != "")
                 {
-                    <span>
+                    <span style="padding-left: 1rem;">
                         @item.FeedTitle
                     </span>
                 }

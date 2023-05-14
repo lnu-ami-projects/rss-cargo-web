@@ -23,7 +23,7 @@ internal static class SyndicationGetter
     {
         return item == null
             ? Array.Empty<string>()
-            : item.Select(i => i.Email).ToArray();
+            : item.Select(i => i.Email == string.Empty ? i.Name : i.Name + " (" + i.Email + ")").ToArray();
     }
 
     public static Tuple<string, string>[] GetValueOrEmpty(IReadOnlyCollection<SyndicationLink>? item)

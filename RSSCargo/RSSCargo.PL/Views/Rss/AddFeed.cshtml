@@ -5,7 +5,7 @@
 }
 @using (Html.BeginForm("AddFeed", "Rss", FormMethod.Post))
 {
-    <div class="box-shadow shadow-sm m-3 p-3 d-flex align-items-center flex-column">
+    <div class="box-shadow border-secondary shadow-sm m-3 p-3 d-flex align-items-center flex-column">
         <label for="feed-url" class="h5">Add Feed link</label>
         <div class="input-group mb-3 px-2">
             <div class="input-group-prepend">
@@ -23,7 +23,7 @@
             @foreach (var item in Model.UserFeeds)
             {
                 <div class="col-12 col-xl-6 col-xxl-4 px-2 py-2">
-                    <div class="card shadow-sm h-100">
+                    <div class="card border-secondary shadow-sm h-100">
                         <div class="card-header fs-5">
                             @item.Title
                         </div>

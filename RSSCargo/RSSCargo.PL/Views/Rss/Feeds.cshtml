@@ -10,7 +10,7 @@
     <div class="h1 text-center">@Model.UserFeed.Title</div>
     @foreach (var item in Model.UserFeed.Items)
     {
-        <div class="card box-shadow shadow-sm m-3">
+        <div class="card border-secondary box-shadow shadow-sm m-sm-4 m-3">
             <div class="card-header h4">
                 @item.Title
             </div>
@@ -37,12 +37,12 @@ else
     {
         foreach (var item in Model.UserFeedsItems)
         {
-            <div class="card box-shadow shadow-sm m-3">
+            <div class="card border-secondary box-shadow shadow-sm m-sm-4 m-3">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <span class="h4">
                         @item.Title
                     </span>
-                    <span>
+                    <span style="padding-left: 1rem;">
                         @item.FeedTitle
                     </span>
                 </div>

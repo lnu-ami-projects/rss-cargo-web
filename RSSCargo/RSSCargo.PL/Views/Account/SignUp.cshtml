@@ -1,34 +1,43 @@
+@model SignUpViewModel
+
 @{
     ViewData["Title"] = "Sign Up";
     Layout = "_SignLayout";
 }
 
-<form  asp-controller="Account" asp-action="SignUp"  asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="sign-form">
-    
-  <h3 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Sign Up</h3>
+@using (Html.BeginForm("SignUp", "Account", FormMethod.Post, new { @class = "sign-form" }))
+{
+    @Html.AntiForgeryToken()
+
+    <h3 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Sign Up</h3>
 
     <div class="form-outline mb-4">
         <label class="form-label" for="email">Email address</label>
-        <input type="email" name="email" id="email" class="form-control form-control-lg" placeholder="e.g., example@mail.com" required/>
+        @Html.TextBoxFor(m => m.Email, new { @class = "form-control form-control-lg", placeholder = "e.g., example@mail.com"})
+        @Html.ValidationMessageFor(m => m.Email)
     </div>
-    
-      <div class="form-outline mb-4">
+
+    <div class="form-outline mb-4">
         <label class="form-label" for="username">Username</label>
-        <input type="text" name="username" id="username" class="form-control form-control-lg"  placeholder="e.g., rssUser" required/>
-      </div>
+        @Html.TextBoxFor(m => m.Username, new { @class = "form-control form-control-lg", placeholder = "e.g., rssUser"})
+        @Html.ValidationMessageFor(m => m.Username)
+    </div>
 
     <div class="form-outline mb-4">
         <label class="form-label" for="password">Password</label>
-        <input type="password" name="password" id="password" class="form-control form-control-lg" placeholder="e.g., &#183;&#183;&#183;&#183;&#183;&#183;&#183;&#183;" required/>
+        @Html.PasswordFor(m => m.Password, new { @class = "form-control form-control-lg", placeholder = "e.g., · · · · · · · ·"})
+        @Html.ValidationMessageFor(m => m.Password)
     </div>
+
     <div class="form-outline mb-4">
         <label class="form-label" for="cpassword">Confirm Password</label>
-        <input type="password" name="cpassword" id="cpassword" class="form-control form-control-lg"  placeholder="e.g., &#183;&#183;&#183;&#183;&#183;&#183;&#183;&#183;" required/>
+        @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control form-control-lg", placeholder = "e.g., · · · · · · · ·"})
+        @Html.ValidationMessageFor(m => m.ConfirmPassword)
     </div>
 
     <div class="pt-1 mb-4">
         <button class="btn btn-dark btn-lg btn-block" type="submit">Register</button>
     </div>
-    
-    <p class="mb-0">Already have an account? <a asp-controller="Account" asp-action="SignIn" class="link-secondary">Sign In here</a></p>
-</form>
+
+    <p class="mb-0">Already have an account? @Html.ActionLink("Sign In here", "SignIn", "Account", null, new { @class = "link-secondary" })</p>
+}
