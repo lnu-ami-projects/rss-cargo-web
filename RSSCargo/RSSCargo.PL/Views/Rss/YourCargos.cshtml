@@ -30,6 +30,13 @@
                 </div>
             </div>
         }
+
+        @if (!Model.SubCargos.Any())
+        {
+            <h4 class="text-center text-secondary mt-5">
+                No subscribed cargos right now, subscribe using form below
+            </h4>
+        }
     </div>
 </div>
 
@@ -60,6 +67,13 @@
                     </div>
                 </div>
             </div>
+        }
+
+        @if (!Model.UnsubCargos.Any())
+        {
+            <h4 class="text-center text-secondary mt-5">
+                You subscribed to all cargos
+            </h4>
         }
     </div>
 </div>

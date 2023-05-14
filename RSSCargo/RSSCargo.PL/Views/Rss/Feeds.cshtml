@@ -61,5 +61,12 @@ else
                 </div>
             </div>
         }
+
+        @if (!Model.UserFeedsItems.Any())
+        {
+            <h4 class="text-center text-secondary mt-5">
+                There is no feeds right now, to add new feeds <a asp-controller="Rss" asp-action="AddFeed">click here</a>
+            </h4>
+        }
     }
 }

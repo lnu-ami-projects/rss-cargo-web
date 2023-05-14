@@ -11,7 +11,7 @@
             <div class="input-group-prepend">
                 <span class="input-group-text" id="feed-url-addon">Link</span>
             </div>
-            <input type="text" name="feedUrl" class="form-control" id="feed-url" aria-describedby="feedUrl" placeholder="your_feed_link">
+            <input type="text" name="feedUrl" class="form-control" id="feed-url" aria-describedby="feedUrl" placeholder="Your feed link ...">
             <button type="submit" class="btn btn btn-outline-dark ml-5">Add</button>
         </div>
     </div>
@@ -41,5 +41,12 @@
                 </div>
             }
         </div>
+    }
+
+    @if (Model.UserFeeds == null || !Model.UserFeeds.Any())
+    {
+        <h4 class="text-center text-secondary mt-5">
+            There is no feeds right now, add them using form above
+        </h4>
     }
 </div>

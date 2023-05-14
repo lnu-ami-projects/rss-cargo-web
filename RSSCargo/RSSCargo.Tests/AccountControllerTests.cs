@@ -12,6 +12,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
+using RSSCargo.PL.Models;
 
 namespace RSSCargo.Tests;
 
@@ -66,7 +67,11 @@ public class AccountControllerTests
             HttpContext = new DefaultHttpContext() { User = user }
         };
 
-        var result = _accountController.SignIn("bill_gates@ukr.net", "1111", "/Account/SignIn");
+        var result = _accountController.SignIn(new SignInViewModel
+        {
+            Email = "bill_gates@ukr.net",
+            Password = "1111"
+        }, "/Account/SignIn");
 
         await Assert.IsType<Task<IActionResult>>(result);
     }

@@ -45,3 +45,10 @@ else
         </div>
     }
 }
+
+@if (!Model.UserCargoFeeds.Any())
+{
+    <h4 class="text-center text-secondary mt-5">
+        There is no cargo feeds right now, to add new cargo <a asp-controller="Rss" asp-action="YourCargos">click here</a>
+    </h4>
+}
