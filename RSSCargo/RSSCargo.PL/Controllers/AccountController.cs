@@ -38,25 +38,7 @@ public class AccountController : Controller
     {
         return RedirectToAction("SignIn");
     }
-
-    // [HttpPost]
-    // public async Task<IActionResult> SignIn(string email, string password, string? returnUrl)
-    // {
-    //     ViewData["ReturnUrl"] = returnUrl;
-    //
-    //     var user = _userService.GetUserByEmail(email);
-    //     if (user == null) return RedirectToAction("SignIn", "Account");
-    //
-    //     var result = await _signInManager.PasswordSignInAsync(user.UserName, password, true, false);
-    //     if (!result.Succeeded)
-    //     {
-    //         _logger.LogError("Sign in: " + result);
-    //         return RedirectToAction("SignIn", "Account");
-    //     }
-    //
-    //     _userService.UserAuthenticated(HttpContext, user.Id, user.UserName);
-    //     return Redirect(Url.IsLocalUrl(returnUrl) ? returnUrl : "/Rss/Feeds");
-    // }
+    
     [HttpPost]
     public async Task<IActionResult> SignIn(SignInViewModel model, string? returnUrl)
     {
