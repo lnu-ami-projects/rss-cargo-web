@@ -70,7 +70,6 @@ namespace RSSCargo.BLL.Services.Email
             finally
             {
                 client.Disconnect(true);
-                client.Dispose();
             }
         }
 
@@ -88,7 +87,6 @@ namespace RSSCargo.BLL.Services.Email
             finally
             {
                 await client.DisconnectAsync(true);
-                client.Dispose();
             }
         }
     }

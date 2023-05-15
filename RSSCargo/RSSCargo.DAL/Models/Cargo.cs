@@ -1,12 +1,14 @@
-﻿namespace RSSCargo.DAL.Models;
+﻿using RSSCargo.DAL.Models.Contracts;
 
-public class Cargo: IEntityBase
+namespace RSSCargo.DAL.Models;
+
+public sealed class Cargo : IEntityBase
 {
     public int Id { get; set; }
 
-    public string Name { get; set; } = string.Empty;
+    public string Name { get; init; } = string.Empty;
 
-    public virtual IEnumerable<CargoFeed> CargoFeeds { get; init;  }
+    public IEnumerable<CargoFeed> CargoFeeds { get; init; } = null!;
 
-    public virtual IEnumerable<UserCargo> UserCargos { get; init; }
+    public IEnumerable<UserCargo> UserCargos { get; init; } = null!;
 }

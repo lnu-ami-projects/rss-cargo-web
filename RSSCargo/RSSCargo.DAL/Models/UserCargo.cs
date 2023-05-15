@@ -1,14 +1,16 @@
-﻿namespace RSSCargo.DAL.Models;
+﻿using RSSCargo.DAL.Models.Contracts;
 
-public class UserCargo : IEntityBase
+namespace RSSCargo.DAL.Models;
+
+public sealed class UserCargo : IEntityBase
 {
     public int Id { get; set; }
 
-    public int UserId { get; set; }
+    public int UserId { get; init; }
 
-    public int CargoId { get; set; }
+    public int CargoId { get; init; }
 
-    public virtual Cargo Cargo { get; set; }
+    public Cargo Cargo { get; set; } = null!;
 
-    public virtual User User { get; set; }
+    public User User { get; set; } = null!;
 }

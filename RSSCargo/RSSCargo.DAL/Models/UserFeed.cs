@@ -1,12 +1,14 @@
-﻿namespace RSSCargo.DAL.Models;
+﻿using RSSCargo.DAL.Models.Contracts;
 
-public class UserFeed: IEntityBase
+namespace RSSCargo.DAL.Models;
+
+public sealed class UserFeed : IEntityBase
 {
     public int Id { get; set; }
 
-    public int UserId { get; set; }
+    public int UserId { get; init; }
 
-    public string RssFeed { get; set; } = string.Empty;
+    public string RssFeed { get; init; } = string.Empty;
 
-    public virtual User User { get; set; }
+    public User User { get; set; } = null!;
 }

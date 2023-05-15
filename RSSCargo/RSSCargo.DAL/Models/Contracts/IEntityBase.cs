@@ -1,4 +1,4 @@
-namespace RSSCargo.DAL.Models;
+namespace RSSCargo.DAL.Models.Contracts;
 
 public interface IEntityBase
 {

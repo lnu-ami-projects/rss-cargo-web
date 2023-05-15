@@ -31,12 +31,13 @@ public class RssFeedService : IRssFeedService
     {
         try
         {
-            var _ = new RssFeed(0, feedUrl);
+            _ = new RssFeed(0, feedUrl);
         }
         catch
         {
             return false;
         }
+
         return true;
     }
 }
