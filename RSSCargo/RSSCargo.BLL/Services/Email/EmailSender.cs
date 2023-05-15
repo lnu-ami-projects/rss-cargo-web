@@ -1,10 +1,5 @@
 ﻿using MailKit.Net.Smtp;
-using Microsoft.Extensions.Options;
 using MimeKit;
-using System;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace RSSCargo.BLL.Services.Email
 {
@@ -38,20 +33,22 @@ namespace RSSCargo.BLL.Services.Email
             emailMessage.To.AddRange(message.To);
             emailMessage.Subject = message.Subject;
 
-            var bodyBuilder = new BodyBuilder { HtmlBody = string.Format("<h2 style='color:red;'>{0}</h2>", message.Content) };
+            var bodyBuilder = new BodyBuilder
+                { HtmlBody = $"<h2 style='color:red;'>{message.Content}</h2>" };
 
-            if (message.Attachments != null && message.Attachments.Any())
+            if (message.Attachments.Any())
             {
-                byte[] fileBytes;
                 foreach (var attachment in message.Attachments)
                 {
+                    byte[] fileBytes;
                     using (var ms = new MemoryStream())
                     {
                         attachment.CopyTo(ms);
                         fileBytes = ms.ToArray();
                     }
 
-                    bodyBuilder.Attachments.Add(attachment.FileName, fileBytes, ContentType.Parse(attachment.ContentType));
+                    bodyBuilder.Attachments.Add(attachment.FileName, fileBytes,
+                        ContentType.Parse(attachment.ContentType));
                 }
             }
 
@@ -61,41 +58,37 @@ namespace RSSCargo.BLL.Services.Email
 
         private void Send(MimeMessage mailMessage)
         {
-            using (var client = new SmtpClient())
+            using var client = new SmtpClient();
+            try
             {
-                try
-                {
-                    client.Connect(_emailConfig.SmtpServer, _emailConfig.Port, true);
-                    client.AuthenticationMechanisms.Remove("XOAUTH2");
-                    client.Authenticate(_emailConfig.UserName, _emailConfig.Password);
+                client.Connect(_emailConfig.SmtpServer, _emailConfig.Port, true);
+                client.AuthenticationMechanisms.Remove("XOAUTH2");
+                client.Authenticate(_emailConfig.UserName, _emailConfig.Password);
 
-                    client.Send(mailMessage);
-                }
-                finally
-                {
-                    client.Disconnect(true);
-                    client.Dispose();
-                }
+                client.Send(mailMessage);
+            }
+            finally
+            {
+                client.Disconnect(true);
+                client.Dispose();
             }
         }
 
         private async Task SendAsync(MimeMessage mailMessage)
         {
-            using (var client = new SmtpClient())
+            using var client = new SmtpClient();
+            try
             {
-                try
-                {
-                    await client.ConnectAsync(_emailConfig.SmtpServer, _emailConfig.Port, true);
-                    client.AuthenticationMechanisms.Remove("XOAUTH2");
-                    await client.AuthenticateAsync(_emailConfig.UserName, _emailConfig.Password);
+                await client.ConnectAsync(_emailConfig.SmtpServer, _emailConfig.Port, true);
+                client.AuthenticationMechanisms.Remove("XOAUTH2");
+                await client.AuthenticateAsync(_emailConfig.UserName, _emailConfig.Password);
 
-                    await client.SendAsync(mailMessage);
-                }
-                finally
-                {
-                    await client.DisconnectAsync(true);
-                    client.Dispose();
-                }
+                await client.SendAsync(mailMessage);
+            }
+            finally
+            {
+                await client.DisconnectAsync(true);
+                client.Dispose();
             }
         }
     }
