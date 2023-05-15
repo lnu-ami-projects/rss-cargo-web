@@ -26,7 +26,7 @@ public class HomeController : Controller
         }
 
         var user = _userService.GetUserAuthenticated(HttpContext);
-        _logger.LogInformation(user == null ? "No user logged in" : $"Logged in user: {user.UserName}");
+        _logger.LogInformation("{Message}", user == null ? "No user logged in" : $"Logged in user: {user.UserName}");
 
         return View();
     }

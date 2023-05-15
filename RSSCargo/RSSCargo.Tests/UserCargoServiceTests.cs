@@ -33,8 +33,8 @@ public class UserCargoServiceTests
     [Fact]
     public void SubscribeUserCargo_AddsCargoWithFeedsToUser()
     {
-        var userId = 1;
-        var cargoId = 111;
+        const int userId = 1;
+        const int cargoId = 111;
 
         _userCargoService.SubscribeUserCargo(userId, cargoId);
 
@@ -68,11 +68,11 @@ public class UserCargoServiceTests
         Assert.Throws<InvalidOperationException>(() => _userCargoService.UnsubscribeUserCargo(incorrectUserId, cargoId));
     }
 
-    private List<UserCargo> GetCargosOfUser()
+    private static List<UserCargo> GetCargosOfUser()
     {
-        var userId = 1;
-        var rssCargoFirst = 111;
-        var rssCargoSecond = 222;
+        const int userId = 1;
+        const int rssCargoFirst = 111;
+        const int rssCargoSecond = 222;
         var cargoFirst = new UserCargo
         {
             UserId = userId,

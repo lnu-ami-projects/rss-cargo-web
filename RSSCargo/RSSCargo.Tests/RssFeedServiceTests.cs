@@ -63,7 +63,7 @@ public class RssFeedServiceTests
         Assert.Throws<InvalidOperationException>(() => _rssFeedService.GetUserFeed(userId, feedId));
     }
 
-    private List<UserFeed> GetFeedsOfUser()
+    private static IEnumerable<UserFeed> GetFeedsOfUser()
     {
         var userFeedFirst = new UserFeed
         {

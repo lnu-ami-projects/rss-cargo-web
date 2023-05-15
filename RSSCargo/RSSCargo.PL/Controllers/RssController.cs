@@ -39,14 +39,14 @@ public class RssController : Controller
             .Select(f => new Tuple<int, string>(f.Id, f.Title));
 
         ViewData["UserCargos"] = _userCargoService
-            .GetUserCargos(user.Id).ToList()
+            .GetUserCargos(user.Id).ToArray()
             .Select(uc => new Tuple<int, string>(uc.CargoId, _cargoService.GetCargoById(uc.CargoId).Name));
     }
 
     public IActionResult Feeds()
     {
         var user = _userService.GetUserAuthenticated(HttpContext)!;
-        _logger.LogInformation($"Logged in user: {user.UserName}");
+        _logger.LogInformation("Logged in user: {UserName}", user.UserName);
 
         if (Request.Query["feed-id"].Count == 0)
         {
@@ -102,12 +102,12 @@ public class RssController : Controller
 
         var cargoFeeds = new Dictionary<int, List<string>>();
 
-        foreach (var cargo in subCargos.Concat(unsubCargos))
+        foreach (var cargoId in subCargos.Concat(unsubCargos).Select(cargo => cargo.Id))
         {
-            var feeds = _cargoService.GetCargoFeeds(cargo.Id)
+            var feeds = _cargoService.GetCargoFeeds(cargoId)
                 .Select(cargoCargoFeed => new RssFeed(0, cargoCargoFeed.RssFeed).Title)
                 .ToList();
-            cargoFeeds[cargo.Id] = feeds;
+            cargoFeeds[cargoId] = feeds;
         }
 
         return View(new YourCargosViewModel
@@ -141,14 +141,15 @@ public class RssController : Controller
     public IActionResult CargoFeeds()
     {
         var user = _userService.GetUserAuthenticated(HttpContext)!;
-        _logger.LogInformation($"Logged in user: {user.UserName}");
+        _logger.LogInformation("Logged in user: {UserName}", user.UserName);
 
         if (Request.Query["cargo-id"].Count == 0)
         {
             var userCargos = _userCargoService.GetUserCargos(user.Id).ToList();
 
             var cargoAllFeeds = new List<RssFeed>();
-            foreach (var cargoFeeds in userCargos.Select(userCargo => _cargoService.GetRssCargoFeeds(userCargo.CargoId)))
+            foreach (var cargoFeeds in
+                     userCargos.Select(userCargo => _cargoService.GetRssCargoFeeds(userCargo.CargoId)))
             {
                 cargoAllFeeds.AddRange(cargoFeeds);
             }

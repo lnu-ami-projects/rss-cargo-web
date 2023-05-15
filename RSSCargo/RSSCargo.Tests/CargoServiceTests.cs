@@ -54,7 +54,7 @@ public class CargoServiceTests
         _cargoRepositoryMock.Setup(repo => repo.GetAllCargos()).Returns(cargos);
         var result = _cargoService.GetUnsubscribedCargos(userCargos[0].UserId).ToArray();
 
-        Assert.Equal(new Cargo[] {}, result);
+        Assert.Equal(Array.Empty<Cargo>(), result);
     }
 
     [Fact]
@@ -137,7 +137,7 @@ public class CargoServiceTests
     }
 
 
-    private List<Cargo> GetCargos()
+    private static List<Cargo> GetCargos()
     {
         var cargoFirst = new Cargo
         {
@@ -158,7 +158,7 @@ public class CargoServiceTests
         return new List<Cargo> { cargoFirst, cargoSecond, cargoThird };
     }
 
-    private List<CargoFeed> GetCargoFeedsFromCargos()
+    private static IEnumerable<CargoFeed> GetCargoFeedsFromCargos()
     {
         var cargoFeedFirst = new CargoFeed
         {
@@ -179,11 +179,11 @@ public class CargoServiceTests
         return new List<CargoFeed> { cargoFeedFirst, cargoFeedSecond, cargoFeedThird };
     }
 
-    private List<UserCargo> GetCargosOfUser()
+    private static List<UserCargo> GetCargosOfUser()
     {
-        var userId = 1;
-        var rssCargoFirst = 111;
-        var rssCargoSecond = 222;
+        const int userId = 1;
+        const int rssCargoFirst = 111;
+        const int rssCargoSecond = 222;
         var cargoFirst = new UserCargo
         {
             UserId = userId,

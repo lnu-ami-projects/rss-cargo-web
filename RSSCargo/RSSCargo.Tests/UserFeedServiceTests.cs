@@ -33,8 +33,8 @@ public class UserFeedServiceTests
     [Fact]
     public void AddUserFeed_AddsFeedToUser()
     {
-        var userId = 1;
-        var rssFeed = "feed1";
+        const int userId = 1;
+        const string rssFeed = "feed1";
 
         _userFeedService.AddUserFeed(userId, rssFeed);
 
@@ -60,7 +60,7 @@ public class UserFeedServiceTests
     {
         var userFeeds = GetFeedsOfUser();
         var userId = userFeeds[0].UserId;
-        var incorrectUserId = 123;
+        const int incorrectUserId = 123;
         var feedRss = userFeeds[0].RssFeed;
 
         _userRepositoryMock.Setup(repo => repo.GetUserFeeds(userId)).Returns(userFeeds);
@@ -68,11 +68,11 @@ public class UserFeedServiceTests
         Assert.Throws<InvalidOperationException>(() => _userFeedService.RemoveUserFeed(incorrectUserId, feedRss));
     }
 
-    private List<UserFeed> GetFeedsOfUser()
+    private static List<UserFeed> GetFeedsOfUser()
     {
-        var userId = 1;
-        var rssFeedFirst = "feed1";
-        var rssFeedSecond = "feed2";
+        const int userId = 1;
+        const string rssFeedFirst = "feed1";
+        const string rssFeedSecond = "feed2";
         var feedFirst = new UserFeed
         {
             UserId = userId,

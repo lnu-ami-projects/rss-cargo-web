@@ -65,8 +65,6 @@ builder.Services.AddScoped<IRssFeedService, RssFeedService>();
 
 builder.Services.AddIdentity<User, IdentityRole<int>>(options =>
         {
-            options.SignIn.RequireConfirmedEmail = false;
-
             options.Password.RequireDigit = false;
             options.Password.RequireLowercase = false;
             options.Password.RequireNonAlphanumeric = false;
@@ -74,7 +72,7 @@ builder.Services.AddIdentity<User, IdentityRole<int>>(options =>
             options.Password.RequiredLength = 1;
             options.Password.RequiredUniqueChars = 0;
 
-            //options.SignIn.RequireConfirmedEmail = true;
+            options.SignIn.RequireConfirmedEmail = true;
 
             options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(0);
             options.Lockout.MaxFailedAccessAttempts = 50000;
@@ -91,9 +89,6 @@ builder.Services.AddIdentity<User, IdentityRole<int>>(options =>
     .AddTokenProvider<EmailConfirmationTokenProvider<User>>("emailconfirmation");
 
 builder.Services.Configure<DataProtectionTokenProviderOptions>(opt =>
-    opt.TokenLifespan = TimeSpan.FromHours(2));
-
-builder.Services.Configure<EmailConfirmationTokenProviderOptions>(opt =>
     opt.TokenLifespan = TimeSpan.FromDays(3));
 
 var emailConfig = builder.Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>();
