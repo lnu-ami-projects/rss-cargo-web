@@ -39,7 +39,7 @@ public class RssController : Controller
             .Select(f => new Tuple<int, string>(f.Id, f.Title));
 
         ViewData["UserCargos"] = _userCargoService
-            .GetUserCargos(user.Id).ToArray()
+            .GetUserCargos(user.Id)
             .Select(uc => new Tuple<int, string>(uc.CargoId, _cargoService.GetCargoById(uc.CargoId).Name));
     }
 

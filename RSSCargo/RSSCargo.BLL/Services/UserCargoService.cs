@@ -15,7 +15,7 @@ public class UserCargoService : IUserCargoService
 
     public IEnumerable<UserCargo> GetUserCargos(int userId)
     {
-        return _repository.GetUserCargos(userId);
+        return _repository.GetUserCargos(userId).ToList();
     }
 
     public void SubscribeUserCargo(int userId, int cargoId)

@@ -80,7 +80,7 @@ public class CargoServiceTests
         _cargoRepositoryMock.Setup(repo => repo.GetAllCargos()).Returns(cargos);
         var result = _cargoService.GetSubscribedCargos(userCargos[0].UserId).ToArray();
 
-        Assert.Equal(new Cargo[] { }, result);
+        Assert.Equal(Array.Empty<Cargo>(), result);
     }
 
     [Theory]

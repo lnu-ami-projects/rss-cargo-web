@@ -36,7 +36,7 @@ namespace RSSCargo.BLL.Services.Email
             var bodyBuilder = new BodyBuilder
                 { HtmlBody = $"<h2 style='color:red;'>{message.Content}</h2>" };
 
-            if (message.Attachments.Any())
+            if (message.Attachments != null && message.Attachments.Any())
             {
                 foreach (var attachment in message.Attachments)
                 {
