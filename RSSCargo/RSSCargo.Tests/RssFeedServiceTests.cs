@@ -1,6 +1,5 @@
 ﻿using RSSCargo.BLL.Services;
 using RSSCargo.DAL.Models;
-using RSSCargo.DAL.Repositories.Contracts;
 using RSSCargo.BLL.Services.Contracts;
 using RSSCargo.BLL.Services.Rss;
 using Moq;
@@ -26,9 +25,10 @@ public class RssFeedServiceTests
     {
         var rssFeedsOfUser = GetFeedsOfUser().Where(feed => feed.UserId == userId);
 
-        _userFeedServiceMock.Setup(repo => repo.GetUserFeeds(userId)).Returns(rssFeedsOfUser);
+        var feedsOfUser = rssFeedsOfUser as UserFeed[] ?? rssFeedsOfUser.ToArray();
+        _userFeedServiceMock.Setup(repo => repo.GetUserFeeds(userId)).Returns(feedsOfUser);
         var result = _rssFeedService.GetUserFeeds(userId).Select(x => new { x.Link, x.Description, x.Title, x.Authors, x.Id, x.LastUpdatedTime }).ToList();
-        var expectedResult = rssFeedsOfUser.Select(userFeed => new RssFeed(userFeed.Id, userFeed.RssFeed)).Select(x => new { x.Link, x.Description, x.Title, x.Authors, x.Id, x.LastUpdatedTime }).ToList();
+        var expectedResult = feedsOfUser.Select(userFeed => new RssFeed(userFeed.Id, userFeed.RssFeed)).Select(x => new { x.Link, x.Description, x.Title, x.Authors, x.Id, x.LastUpdatedTime }).ToList();
 
         Assert.Equal(expectedResult, result);
     }
@@ -40,10 +40,11 @@ public class RssFeedServiceTests
     {
         var rssFeedsOfUser = GetFeedsOfUser().Where(feed => feed.UserId == userId);
 
-        _userFeedServiceMock.Setup(repo => repo.GetUserFeeds(userId)).Returns(rssFeedsOfUser);
+        var feedsOfUser = rssFeedsOfUser as UserFeed[] ?? rssFeedsOfUser.ToArray();
+        _userFeedServiceMock.Setup(repo => repo.GetUserFeeds(userId)).Returns(feedsOfUser);
         var rssFeedResult = _rssFeedService.GetUserFeed(userId, feedId);
         var result = new { rssFeedResult.Link, rssFeedResult.Description, rssFeedResult.Authors, rssFeedResult.Title, rssFeedResult.Id, rssFeedResult.LastUpdatedTime };
-        var feed = rssFeedsOfUser.First(userFeed => userFeed.Id == feedId);
+        var feed = feedsOfUser.First(userFeed => userFeed.Id == feedId);
         var expectedFeedResult = new RssFeed(feedId, feed.RssFeed);
         var expectedResult = new { expectedFeedResult.Link, expectedFeedResult.Description, expectedFeedResult.Authors, expectedFeedResult.Title, expectedFeedResult.Id, expectedFeedResult.LastUpdatedTime };
 

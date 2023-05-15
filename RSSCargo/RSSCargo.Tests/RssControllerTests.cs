@@ -1,7 +1,4 @@
-﻿using System.Diagnostics;
-using RSSCargo.DAL.Models;
-using RSSCargo.DAL.Repositories;
-using RSSCargo.DAL.Repositories.Contracts;
+﻿using RSSCargo.DAL.Models;
 using RSSCargo.BLL.Services.Contracts;
 using RSSCargo.BLL.Services.Rss;
 using RSSCargo.PL.Controllers;
@@ -22,7 +19,7 @@ public class RssControllerTests
     private readonly Mock<IUserCargoService> _userCargoServiceMock;
     private readonly Mock<ICargoService> _cargoServiceMock;
     private readonly Mock<IRssFeedService> _rssFeedServiceMock;
-    private RssController _rssController;
+    private RssController _rssController = null!;
 
     public RssControllerTests()
     {
@@ -35,13 +32,13 @@ public class RssControllerTests
     }
 
     [Fact]
-    public async Task AddFeed_ReturnsViewResult_WithUserFeeds()
+    public Task AddFeed_ReturnsViewResult_WithUserFeeds()
     {
         var userId = 1;
         var feedFirst = new RssFeed(111, "http://rss.cnn.com/rss/edition_world.rss");
         var feedSecond = new RssFeed(222, "http://rss.cnn.com/rss/edition_business.rss");
         var user = new User { Id = userId };
-        var userClaimPrincipal = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+        var userClaimPrincipal = new ClaimsPrincipal(new ClaimsIdentity(new[]
         {
             new Claim(ClaimTypes.Name, "Bill"),
             new Claim(ClaimTypes.NameIdentifier, "1"),
@@ -61,15 +58,16 @@ public class RssControllerTests
         var viewResult = Assert.IsType<ViewResult>(result);
         Assert.IsAssignableFrom<FeedsViewModel>(
             viewResult.ViewData.Model);
+        return Task.CompletedTask;
     }
 
     [Fact]
-    public async Task RemoveFeed_RedirectsToAddFeedViewResult_WithUserAuthenticated()
+    public Task RemoveFeed_RedirectsToAddFeedViewResult_WithUserAuthenticated()
     {
         var userId = 1;
         var feedFirst = new RssFeed(111, "http://rss.cnn.com/rss/edition_world.rss");
         var user = new User { Id = userId };
-        var userClaimPrincipal = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+        var userClaimPrincipal = new ClaimsPrincipal(new ClaimsIdentity(new[]
         {
             new Claim(ClaimTypes.Name, "Bill"),
             new Claim(ClaimTypes.NameIdentifier, "1"),
@@ -89,10 +87,11 @@ public class RssControllerTests
         Assert.IsType<RedirectToActionResult>(result);
         Assert.Null(result.ControllerName);
         Assert.Equal("AddFeed", result.ActionName);
+        return Task.CompletedTask;
     }
 
     [Fact]
-    public async Task AddFeed_RedirectsToAddFeedViewResult_ViaUrlUnsuccessful()
+    public Task AddFeed_RedirectsToAddFeedViewResult_ViaUrlUnsuccessful()
     {
         var feedFirst = new RssFeed(111, "http://rss.cnn.com/rss/edition_world.rss");
         _rssFeedServiceMock.Setup(serv => serv.ValidateFeed(feedFirst.Link)).Returns(false);
@@ -104,15 +103,16 @@ public class RssControllerTests
         Assert.IsType<RedirectToActionResult>(result);
         Assert.Null(result.ControllerName);
         Assert.Equal("AddFeed", result.ActionName);
+        return Task.CompletedTask;
     }
 
     [Fact]
-    public async Task AddFeed_RedirectsToAddFeedViewResult_ViaUrlSuccessful()
+    public Task AddFeed_RedirectsToAddFeedViewResult_ViaUrlSuccessful()
     {
         var userId = 1;
         var feedFirst = new RssFeed(111, "http://rss.cnn.com/rss/edition_world.rss");
         var user = new User { Id = userId };
-        var userClaimPrincipal = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+        var userClaimPrincipal = new ClaimsPrincipal(new ClaimsIdentity(new[]
         {
             new Claim(ClaimTypes.Name, "Bill"),
             new Claim(ClaimTypes.NameIdentifier, "1"),
@@ -133,6 +133,7 @@ public class RssControllerTests
         Assert.IsType<RedirectToActionResult>(result);
         Assert.Null(result.ControllerName);
         Assert.Equal("AddFeed", result.ActionName);
+        return Task.CompletedTask;
     }
 }
 

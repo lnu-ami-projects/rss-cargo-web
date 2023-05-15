@@ -4,6 +4,6 @@ namespace RSSCargo.PL.Models;
 
 public class CargoFeedsViewModel
 {
-    public string CargoName { get; init; }
+    public string CargoName { get; init; } = string.Empty;
     public IEnumerable<RssFeed>? UserCargoFeeds { get; init; }
 }

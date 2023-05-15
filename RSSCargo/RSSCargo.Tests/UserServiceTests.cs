@@ -1,6 +1,5 @@
 using RSSCargo.BLL.Services;
 using RSSCargo.DAL.Models;
-using RSSCargo.DAL.Repositories;
 using RSSCargo.DAL.Repositories.Contracts;
 using Moq;
 using System.Security.Claims;
@@ -48,7 +47,7 @@ public class UserServiceTests
     {
         var userId = 1;
         var user = new User { Id = userId };
-        var userClaimPrincipal = new ClaimsPrincipal(new ClaimsIdentity(new Claim[]
+        var userClaimPrincipal = new ClaimsPrincipal(new ClaimsIdentity(new[]
         {
             new Claim(ClaimTypes.Name, "Bill"),
             new Claim(ClaimTypes.NameIdentifier, "1"),

@@ -1,6 +1,4 @@
-﻿using RSSCargo.BLL.Services.Rss;
-
-namespace RSSCargo.BLL.Services;
+﻿namespace RSSCargo.BLL.Services;
 
 using DAL.Models;
 using RSSCargo.DAL.Repositories.Contracts;

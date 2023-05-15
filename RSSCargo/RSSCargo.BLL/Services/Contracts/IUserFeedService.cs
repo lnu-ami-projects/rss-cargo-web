@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-
-namespace RSSCargo.BLL.Services.Contracts;
+﻿namespace RSSCargo.BLL.Services.Contracts;
 
 using DAL.Models;
 

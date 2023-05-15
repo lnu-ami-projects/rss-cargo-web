@@ -1,9 +1,4 @@
-﻿using System.Security.Claims;
-using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Authentication.Cookies;
-using Microsoft.AspNetCore.Http;
-
-namespace RSSCargo.BLL.Services;
+﻿namespace RSSCargo.BLL.Services;
 
 using DAL.Models;
 using RSSCargo.DAL.Repositories.Contracts;

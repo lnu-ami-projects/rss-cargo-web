@@ -128,9 +128,10 @@ public class CargoServiceTests
     {
         var cargoFeeds = GetCargoFeedsFromCargos().Where(x => x.CargoId == expectedCargoId);
 
-        _cargoRepositoryMock.Setup(repo => repo.GetCargoFeeds(expectedCargoId)).Returns(cargoFeeds);
+        var enumerable = cargoFeeds as CargoFeed[] ?? cargoFeeds.ToArray();
+        _cargoRepositoryMock.Setup(repo => repo.GetCargoFeeds(expectedCargoId)).Returns(enumerable);
         var result = _cargoService.GetRssCargoFeeds(expectedCargoId).Select(x => new {x.Link, x.Description, x.Title, x.Authors, x.Id, x.LastUpdatedTime}).ToList();
-        var expectedResult = cargoFeeds.Select(cF => new RssFeed(0, cF.RssFeed)).Select(x => new { x.Link, x.Description, x.Title, x.Authors, x.Id, x.LastUpdatedTime}).ToList(); 
+        var expectedResult = enumerable.Select(cF => new RssFeed(0, cF.RssFeed)).Select(x => new { x.Link, x.Description, x.Title, x.Authors, x.Id, x.LastUpdatedTime}).ToList(); 
 
         Assert.Equal(expectedResult, result);
     }
