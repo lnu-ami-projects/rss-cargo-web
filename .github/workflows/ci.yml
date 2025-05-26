@@ -22,10 +22,10 @@ jobs:
         run: dotnet restore RSSCargo
 
       - name: Build
-        run: dotnet build --configuration Release --no-restore
+        run: dotnet build --configuration Release --no-restore RSSCargo.PL
 
       - name: Create artifacts
-        run: dotnet pack --configuration Release
+        run: dotnet pack --configuration Release RSSCargo.PL
 
   test:
     name: Test
@@ -42,7 +42,7 @@ jobs:
         run: dotnet restore RSSCargo
 
       - name: Tun tests
-        run: dotnet test --no-restore --no-build
+        run: dotnet test --no-restore --no-build RSSCargo.Tests
 
   build-sonar:
     name: Build and analyze
