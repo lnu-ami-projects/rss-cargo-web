@@ -19,7 +19,7 @@ jobs:
           dotnet-version: 6.0.x
 
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore RSSCargo
 
       - name: Build
         run: dotnet build --configuration Release --no-restore
@@ -39,7 +39,7 @@ jobs:
           dotnet-version: 6.0.x
 
       - name: Restore dependencies
-        run: dotnet restore
+        run: dotnet restore RSSCargo
 
       - name: Tun tests
         run: dotnet test --no-restore --no-build
